@@ -97,6 +97,8 @@ The SEO Query Insights Dashboard addresses these challenges by providing a centr
 - FR-23: The system shall allow users to approve, edit, or discard AI-suggested clusters
 - FR-24: The system shall display performance metrics for each AI-generated cluster
 - FR-25: The system shall handle queries in different languages as distinct entities
+- FR-26: (MVP persistence policy): AI-suggested clusters are ephemeral and are not persisted to the database unless the user accepts them
+- FR-27: (MVP persistence policy): When a cluster is accepted, it is saved as a private user group with its queries; discarded clusters are not saved, but accept and discard actions are logged for analytics
 
 ### 3.5 Opportunity Detection
 
@@ -316,6 +318,7 @@ The following features are explicitly excluded from the MVP:
 - System generates clusters based on semantic similarity
 - System automatically names generated clusters
 - System displays generated clusters for user review
+- Suggestions are ephemeral (not persisted) until accepted; it is acceptable for MVP that suggestions may be lost upon navigation or session expiry
 
 #### US-016: Review AI-Generated Clusters
 **As an** SEO specialist,  
@@ -338,6 +341,7 @@ The following features are explicitly excluded from the MVP:
 - Accepted cluster appears in user's group list
 - System maintains original cluster metrics and contents
 - System tracks acceptance for analytics purposes
+- Only accepted clusters are persisted to the database as groups with their queries
 
 #### US-018: Edit AI-Generated Cluster
 **As an** SEO specialist,  
@@ -358,8 +362,6 @@ The following features are explicitly excluded from the MVP:
 **Acceptance Criteria:**
 - System provides option to discard a cluster
 - Discarded cluster is removed from view
-- System tracks discards for analytics purposes
-- Discarding does not affect queries contained in the cluster
 
 ### 5.6 Opportunity Detection
 

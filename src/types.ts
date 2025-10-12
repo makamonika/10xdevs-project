@@ -196,38 +196,36 @@ export type AddGroupItemsRequestDto = {
  * Users can edit them client-side before accepting.
  */
 export type AiClusterSuggestionDto = {
-  suggestId: string;
   name: string;
   queryTexts: string[];
   queryCount: number;
   metrics: GroupMetricsDto;
 };
 
-/**
- * Response from generating AI clusters
- * Contains ephemeral suggestions that exist only in this response
- */
-export type GenerateAiClustersResponseDto = {
-  suggestions: AiClusterSuggestionDto[];
-  generatedAt: string;
-};
 
 /**
- * Accept a cluster suggestion and save it as a real group
- * The client sends the potentially-edited cluster data (name and queryTexts)
- * This creates a new group with ai_generated = true
+ * Single cluster to accept (subset of the original suggestion)
+ * The client can edit name and filter queryTexts before accepting
  */
-export type AcceptAiClusterRequestDto = {
+export type AcceptClusterDto = {
   name: string;
   queryTexts: string[];
 };
 
 /**
- * Response after accepting a cluster
- * Returns the newly created group (now persisted in database)
+ * Request to accept one or more clusters from a suggestion
+ * The client sends potentially-edited cluster data
  */
-export type AcceptAiClusterResponseDto = {
-  group: GroupWithMetricsDto;
+export type AcceptClustersRequestDto = {
+  clusters: AcceptClusterDto[];
+};
+
+/**
+ * Response after accepting clusters
+ * Returns the newly created groups (now persisted in database)
+ */
+export type AcceptClustersResponseDto = {
+  groups: GroupWithMetricsDto[];
 };
 
 // ============================================================================

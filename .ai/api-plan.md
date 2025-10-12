@@ -9,7 +9,7 @@
 | `imports` | *n/a* (writes to `queries`) | Trigger manual GSC data import |
 | `groups` | `groups` | Manual & AI-generated query groups (per-user) |
 | `groupItems` | `group_items` | Query texts attached to a group |
-| `aiClusters` | *n/a* (writes to `groups` & `group_items`) | Temporary AI clustering suggestions |
+| `aiClusters` | *n/a* (writes to `groups` & `group_items`) | Stateless AI clustering suggestions (not persisted server-side); acceptance writes to `groups` & `group_items` |
 | `userActions` | `user_actions` | Analytics trail of user actions |
 
 > **Naming convention**: camelCase for JSON keys, kebab-case for URL paths.
@@ -135,15 +135,52 @@ All subsequent endpoints require header `Authorization: Bearer <accessToken>`.
 
 ---
 
-### 2.6 AI Clusters (Suggestions Lifecycle)
+### 2.6 AI Clusters
 
 | Method | Path | Description |
 |--------|------|-------------|
-| POST | `/ai/clusters:generate` | Run K-means clustering on latest data |
-| GET | `/ai/clusters/suggestions` | Fetch current suggestions (ephemeral) |
-| POST | `/ai/clusters/{suggestId}:accept` | Persist suggestion as real group(s) |
+| GET | `/ai/clusters` | Generate and return clustering suggestions (on-demand) |
+| POST | `/ai/clusters/accept` | Persist clusters as real group(s) |
 
-Responses mirror the `groups` shape for consistency. Accepting inserts into `groups`, `group_items`, and `user_actions` (`cluster_accepted`).
+#### Behavior & Payloads (MVP)
+
+- `GET /ai/clusters`
+  - Success 200:
+  ```json
+  [
+    {
+      "name": "Topic A",
+      "queryTexts": ["query a", "query b"],
+      "queryCount": 2,
+      "metrics": { "impressions": 12345, "clicks": 67, "ctr": 0.0054, "avgPosition": 8.2 }
+    }
+  ]
+  ```
+  - Side effects: Log `user_actions` with `action_type = cluster_generated`.
+  - Notes: Suggestions are not stored server-side; returned directly to client.
+
+- `POST /ai/clusters/accept`
+  - Body: `{ "clusters": [{ "name": "string", "queryTexts": ["..."] }] }` (allows rename and subset selection before commit)
+  - Success 200: 
+  ```json
+  {
+    "groups": [
+      {
+        "id": "uuid",
+        "name": "Topic A",
+        "aiGenerated": true,
+        "queryCount": 2,
+        "metrics": { "impressions": 12345, "clicks": 67, "ctr": 0.0054, "avgPosition": 8.2 }
+      }
+    ]
+  }
+  ```
+  - Side effects: Insert into `groups` with `ai_generated = true`, insert into `group_items`; log `user_actions` with `action_type = cluster_accepted`.
+
+Notes:
+- Suggestions are stateless and never persisted server-side. Only accepted clusters are saved as user groups.
+- Server sets `Cache-Control: no-store` for `/ai/clusters` to avoid caching of compute-heavy responses.
+- Rate limiting still applies (3 requests/min for generation endpoint).
 
 ---
 
@@ -197,7 +234,8 @@ All endpoints require service-role JWT.
 | Feature | Implementation |
 |---------|---------------|
 | **Opportunity detection** | During import: `isOpportunity = impressions > 1000 AND ctr < 0.01 AND 5 ≤ avgPosition ≤ 15`. Flag stored in DB; clients filter via `isOpportunity` param. |
-| **AI clustering** | `/ai/clusters:generate` fetches latest `queries`, embeds text, runs K-means **on-demand**, and returns suggestions in the same response. Suggestions are **not persisted** server-side; when the client accepts a cluster, it is saved via the regular `groups` endpoints, otherwise it is simply discarded |
+| **AI clustering** | `GET /ai/clusters` fetches latest `queries`, embeds text, runs K-means **on-demand**, and returns suggestions in the same response. Suggestions are **stateless** and not persisted server-side; when the client accepts clusters via `POST /ai/clusters/accept`, they are saved as groups with `ai_generated = true` |
+| **AI cluster actions logging** | `user_actions` logs `cluster_generated` and `cluster_accepted` with relevant metadata (cluster counts, query counts). |
 | **Aggregated metrics** | `/groups/{id}` and `/groups` compute metrics on-the-fly via SQL JOIN on latest date. |
 | **User actions logging** | Middleware records significant events (login, import, cluster actions, group CRUD) into `user_actions`. |
 
