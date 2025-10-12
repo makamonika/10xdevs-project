@@ -56,7 +56,7 @@ The SEO Query Insights Dashboard addresses these challenges by providing a centr
 - FR-01: The system shall provide a manual import function for GSC query data via an internal API
 - FR-02: The imported data shall be shared across all system users
 - FR-03: The system shall display the date of the most recent data import
-- FR-04: The import process shall complete within 1 minute without blocking user interaction
+- FR-04: MVP: The import process shall complete within 1 minute; the UI may block with a progress indicator until completion
 - FR-05: The system shall preserve previously imported data in case of import failure
 - FR-06: The system shall display appropriate error messages if data import fails
 - FR-07: The system shall handle up to 10,000 queries in a single import
@@ -126,6 +126,7 @@ The following features are explicitly excluded from the MVP:
 ### 4.2 Technical Constraints
 
 - Data source: JSON file (40-60MB) accessed via internal API endpoint with date-based naming convention
+- Data availability: GSC data has a 3-day delay; imports fetch data from 3 days prior to current date
 - Authentication: Simple login/password system for internal team use
 - Data classification: Business-sensitive but not PII
 - Performance requirements:
@@ -168,9 +169,8 @@ The following features are explicitly excluded from the MVP:
 
 **Acceptance Criteria:**
 - User can initiate data import via a button/action
-- System displays import progress indicator
+- System displays a blocking progress indicator during import (MVP)
 - System notifies user upon successful import completion
-- System allows user to continue using the application during import
 - Imported data becomes available to all system users
 - System displays the date of the most recent import
 

@@ -79,9 +79,9 @@ All subsequent endpoints require header `Authorization: Bearer <accessToken>`.
 
 | Method | Path | Description | Req Body | Success | Errors |
 |--------|------|-------------|----------|---------|--------|
-| POST | `/imports` | Initiate manual GSC import (background) | `{ sourceUrl }` | `202 Accepted` `{ importId, status: "processing" }` | `400` invalid URL<br>`409` import already running |
+| POST | `/imports` | Initiate manual GSC import (server builds source URL; synchronous MVP) | – | `200 OK` `{ status: "completed", rowCount, durationMs }` | `400` invalid configuration<br>`500` internal |
 
-> Import runs async; on completion a `user_actions` row with `action_type = import_completed` is inserted.
+> MVP: Import runs synchronously; server derives the source URL from settings. On completion a `user_actions` row with `action_type = import_completed` is inserted.
 
 ---
 

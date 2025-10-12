@@ -104,6 +104,19 @@ export type CreateImportResponseDto = {
   status: ImportStatus;
 };
 
+/**
+ * Result of a synchronous import run (MVP)
+ */
+export type ImportRunResultDto = {
+  status: 'completed' | 'failed';
+  rowCount: number;
+  durationMs: number;
+  completedAt?: string;
+  error?: {
+    message: string;
+  };
+};
+
 // ============================================================================
 // 4. Group DTOs
 // ============================================================================
