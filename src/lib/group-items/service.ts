@@ -1,12 +1,12 @@
 /**
  * Group Items Service
- * 
+ *
  * Handles adding and removing query texts from groups.
  * Enforces ownership validation and tracks user actions.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '../../db/database.types';
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "../../db/database.types";
 
 export type AddGroupItemsResult = {
   addedCount: number;
@@ -20,9 +20,9 @@ export type RemoveGroupItemResult = {
  * Custom error for group not found or unauthorized access
  */
 export class GroupNotFoundError extends Error {
-  constructor(message = 'Group not found or access denied') {
+  constructor(message = "Group not found or access denied") {
     super(message);
-    this.name = 'GroupNotFoundError';
+    this.name = "GroupNotFoundError";
   }
 }
 
@@ -36,10 +36,10 @@ async function verifyGroupOwnership(
   groupId: string
 ): Promise<void> {
   const { data, error } = await supabase
-    .from('groups')
-    .select('id')
-    .eq('id', groupId)
-    .eq('user_id', userId)
+    .from("groups")
+    .select("id")
+    .eq("id", groupId)
+    .eq("user_id", userId)
     .maybeSingle();
 
   if (error) {
@@ -68,9 +68,9 @@ export async function addGroupItems(
   await verifyGroupOwnership(supabase, userId, groupId);
 
   // Step 2: Normalize and deduplicate query texts
-  const normalizedTexts = [...new Set(
-    queryTexts.map(text => text.trim().toLowerCase()).filter(text => text.length > 0)
-  )];
+  const normalizedTexts = [
+    ...new Set(queryTexts.map((text) => text.trim().toLowerCase()).filter((text) => text.length > 0)),
+  ];
 
   if (normalizedTexts.length === 0) {
     return { addedCount: 0 };
@@ -78,31 +78,29 @@ export async function addGroupItems(
 
   // Step 3: Check which items already exist
   const { data: existingItems, error: checkError } = await supabase
-    .from('group_items')
-    .select('query_text')
-    .eq('group_id', groupId)
-    .in('query_text', normalizedTexts);
+    .from("group_items")
+    .select("query_text")
+    .eq("group_id", groupId)
+    .in("query_text", normalizedTexts);
 
   if (checkError) {
     throw new Error(`Failed to check existing items: ${checkError.message}`);
   }
 
-  const existingTexts = new Set(existingItems?.map(item => item.query_text.toLowerCase()) ?? []);
-  const newTexts = normalizedTexts.filter(text => !existingTexts.has(text));
+  const existingTexts = new Set(existingItems?.map((item) => item.query_text.toLowerCase()) ?? []);
+  const newTexts = normalizedTexts.filter((text) => !existingTexts.has(text));
 
   if (newTexts.length === 0) {
     return { addedCount: 0 };
   }
 
   // Step 4: Insert new items
-  const itemsToInsert = newTexts.map(queryText => ({
+  const itemsToInsert = newTexts.map((queryText) => ({
     group_id: groupId,
     query_text: queryText,
   }));
 
-  const { error: insertError } = await supabase
-    .from('group_items')
-    .insert(itemsToInsert);
+  const { error: insertError } = await supabase.from("group_items").insert(itemsToInsert);
 
   if (insertError) {
     throw new Error(`Failed to insert group items: ${insertError.message}`);
@@ -112,9 +110,9 @@ export async function addGroupItems(
 
   // Step 5: Track user action
   if (addedCount > 0) {
-    await supabase.from('user_actions').insert({
+    await supabase.from("user_actions").insert({
       user_id: userId,
-      action_type: 'group_item_added',
+      action_type: "group_item_added",
       target_id: groupId,
       metadata: { count: addedCount, queryTexts: newTexts },
     });
@@ -141,15 +139,15 @@ export async function removeGroupItem(
   const normalizedText = queryText.trim().toLowerCase();
 
   if (normalizedText.length === 0) {
-    throw new Error('Query text cannot be empty');
+    throw new Error("Query text cannot be empty");
   }
 
   // Step 3: Delete the item
   const { error, count } = await supabase
-    .from('group_items')
-    .delete({ count: 'exact' })
-    .eq('group_id', groupId)
-    .eq('query_text', normalizedText);
+    .from("group_items")
+    .delete({ count: "exact" })
+    .eq("group_id", groupId)
+    .eq("query_text", normalizedText);
 
   if (error) {
     throw new Error(`Failed to remove group item: ${error.message}`);
@@ -159,9 +157,9 @@ export async function removeGroupItem(
 
   // Step 4: Track user action if item was removed
   if (removed) {
-    await supabase.from('user_actions').insert({
+    await supabase.from("user_actions").insert({
       user_id: userId,
-      action_type: 'group_item_removed',
+      action_type: "group_item_removed",
       target_id: groupId,
       metadata: { queryText: normalizedText },
     });
@@ -169,4 +167,3 @@ export async function removeGroupItem(
 
   return { removed };
 }
-

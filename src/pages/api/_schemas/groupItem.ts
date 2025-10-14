@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { pathParamsSchema } from './group';
+import { z } from "zod";
+import { pathParamsSchema } from "./group";
 
 /**
  * Zod schemas for Group Items API
@@ -13,11 +13,9 @@ import { pathParamsSchema } from './group';
  */
 export const addItemsBodySchema = z.object({
   queryTexts: z
-    .array(
-      z.string().trim().min(1, 'Query text cannot be empty')
-    )
-    .min(1, 'At least one query text is required')
-    .max(500, 'Cannot add more than 500 items at once'),
+    .array(z.string().trim().min(1, "Query text cannot be empty"))
+    .min(1, "At least one query text is required")
+    .max(500, "Cannot add more than 500 items at once"),
 });
 
 /**
@@ -25,9 +23,8 @@ export const addItemsBodySchema = z.object({
  * - queryText: non-empty string (will be URL-decoded and normalized)
  */
 export const deleteItemParamsSchema = pathParamsSchema.extend({
-  queryText: z.string().trim().min(1, 'Query text cannot be empty'),
+  queryText: z.string().trim().min(1, "Query text cannot be empty"),
 });
 
 export type AddItemsBodyInput = z.infer<typeof addItemsBodySchema>;
 export type DeleteItemParamsInput = z.infer<typeof deleteItemParamsSchema>;
-

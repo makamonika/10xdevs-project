@@ -1,7 +1,7 @@
-import type { APIRoute } from 'astro';
-import type { ErrorResponse, GetGroupsResponseDto, GroupWithMetricsDto } from '../../../types';
-import { groupListQuerySchema, createGroupSchema } from '../_schemas/group';
-import { listGroups, createGroup, DuplicateGroupNameError } from '../../../lib/groups/service';
+import type { APIRoute } from "astro";
+import type { ErrorResponse, GetGroupsResponseDto, GroupWithMetricsDto } from "../../../types";
+import { groupListQuerySchema, createGroupSchema } from "../_schemas/group";
+import { listGroups, createGroup, DuplicateGroupNameError } from "../../../lib/groups/service";
 
 /**
  * GET /api/groups
@@ -15,28 +15,28 @@ import { listGroups, createGroup, DuplicateGroupNameError } from '../../../lib/g
 
 export const GET: APIRoute = async ({ locals, request }) => {
   // TODO: Replace with real auth once available
-  const userId = 'temp-user-id';
+  const userId = "temp-user-id";
 
   try {
     const url = new URL(request.url);
     const parse = groupListQuerySchema.safeParse({
-      limit: url.searchParams.get('limit'),
-      offset: url.searchParams.get('offset'),
-      sortBy: url.searchParams.get('sortBy') || undefined,
-      order: url.searchParams.get('order') || undefined,
+      limit: url.searchParams.get("limit"),
+      offset: url.searchParams.get("offset"),
+      sortBy: url.searchParams.get("sortBy") || undefined,
+      order: url.searchParams.get("order") || undefined,
     });
 
     if (!parse.success) {
       const errorResponse: ErrorResponse = {
         error: {
-          code: 'validation_error',
-          message: 'Invalid pagination parameters',
+          code: "validation_error",
+          message: "Invalid pagination parameters",
           details: parse.error.flatten(),
         },
       };
       return new Response(JSON.stringify(errorResponse), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
@@ -50,26 +50,26 @@ export const GET: APIRoute = async ({ locals, request }) => {
 
     return new Response(JSON.stringify(response), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error('[groups][GET] Unexpected error:', error);
+    console.error("[groups][GET] Unexpected error:", error);
     const errorResponse: ErrorResponse = {
       error: {
-        code: 'internal',
-        message: 'Failed to list groups',
+        code: "internal",
+        message: "Failed to list groups",
       },
     };
     return new Response(JSON.stringify(errorResponse), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 };
 
 export const POST: APIRoute = async ({ locals, request }) => {
   // TODO: Replace with real auth once available
-  const userId = 'temp-user-id';
+  const userId = "temp-user-id";
 
   try {
     let body: unknown;
@@ -78,13 +78,13 @@ export const POST: APIRoute = async ({ locals, request }) => {
     } catch {
       const errorResponse: ErrorResponse = {
         error: {
-          code: 'validation_error',
-          message: 'Request body must be valid JSON',
+          code: "validation_error",
+          message: "Request body must be valid JSON",
         },
       };
       return new Response(JSON.stringify(errorResponse), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
@@ -92,14 +92,14 @@ export const POST: APIRoute = async ({ locals, request }) => {
     if (!parsed.success) {
       const errorResponse: ErrorResponse = {
         error: {
-          code: 'validation_error',
-          message: 'Invalid request body',
+          code: "validation_error",
+          message: "Invalid request body",
           details: parsed.error.flatten(),
         },
       };
       return new Response(JSON.stringify(errorResponse), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
@@ -107,33 +107,31 @@ export const POST: APIRoute = async ({ locals, request }) => {
       const created = await createGroup(locals.supabase, userId, parsed.data);
       return new Response(JSON.stringify(created satisfies GroupWithMetricsDto), {
         status: 201,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     } catch (e) {
       if (e instanceof DuplicateGroupNameError) {
         const errorResponse: ErrorResponse = {
-          error: { code: 'conflict', message: e.message },
+          error: { code: "conflict", message: e.message },
         };
         return new Response(JSON.stringify(errorResponse), {
           status: 409,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         });
       }
       throw e;
     }
   } catch (error) {
-    console.error('[groups][POST] Unexpected error:', error);
+    console.error("[groups][POST] Unexpected error:", error);
     const errorResponse: ErrorResponse = {
       error: {
-        code: 'internal',
-        message: 'Failed to create group',
+        code: "internal",
+        message: "Failed to create group",
       },
     };
     return new Response(JSON.stringify(errorResponse), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 };
-
-

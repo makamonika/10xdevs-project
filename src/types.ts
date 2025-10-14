@@ -1,11 +1,11 @@
 /**
  * Data Transfer Objects (DTOs) and Command Models
- * 
+ *
  * This file contains type definitions for API requests and responses.
  * All DTOs are derived from database entity types to ensure type safety.
  */
 
-import type { Tables, TablesInsert, TablesUpdate } from './db/database.types';
+import type { Tables, TablesInsert, TablesUpdate } from "./db/database.types";
 
 // ============================================================================
 // Utility Types
@@ -14,9 +14,7 @@ import type { Tables, TablesInsert, TablesUpdate } from './db/database.types';
 /**
  * Converts snake_case database fields to camelCase for API responses
  */
-type SnakeToCamel<S extends string> = S extends `${infer T}_${infer U}`
-  ? `${T}${Capitalize<SnakeToCamel<U>>}`
-  : S;
+type SnakeToCamel<S extends string> = S extends `${infer T}_${infer U}` ? `${T}${Capitalize<SnakeToCamel<U>>}` : S;
 
 type CamelCaseKeys<T> = {
   [K in keyof T as SnakeToCamel<string & K>]: T[K];
@@ -36,7 +34,7 @@ export type PaginationMeta = {
  */
 export type ErrorResponse = {
   error: {
-    code: 'validation_error' | 'not_found' | 'unauthorized' | 'forbidden' | 'rate_limited' | 'conflict' | 'internal';
+    code: "validation_error" | "not_found" | "unauthorized" | "forbidden" | "rate_limited" | "conflict" | "internal";
     message: string;
     details?: Record<string, unknown>;
   };
@@ -78,13 +76,13 @@ export type RefreshTokenResponseDto = LoginResponseDto;
  * Public representation of a query with camelCase fields
  * Derived from database 'queries' table
  */
-export type QueryDto = CamelCaseKeys<Tables<'queries'>>;
+export type QueryDto = CamelCaseKeys<Tables<"queries">>;
 
 export type GetQueriesRequestDto = {
   search?: string;
   isOpportunity?: boolean;
-  sortBy?: 'impressions' | 'clicks' | 'ctr' | 'avgPosition';
-  order?: 'asc' | 'desc';
+  sortBy?: "impressions" | "clicks" | "ctr" | "avgPosition";
+  order?: "asc" | "desc";
   limit?: number;
   offset?: number;
 };
@@ -108,7 +106,7 @@ export type CreateImportResponseDto = {
  * Result of a synchronous import run (MVP)
  */
 export type ImportRunResultDto = {
-  status: 'completed' | 'failed';
+  status: "completed" | "failed";
   rowCount: number;
   durationMs: number;
   completedAt?: string;
@@ -125,7 +123,7 @@ export type ImportRunResultDto = {
  * Public representation of a group with camelCase fields
  * Derived from database 'groups' table
  */
-export type GroupDto = CamelCaseKeys<Tables<'groups'>>;
+export type GroupDto = CamelCaseKeys<Tables<"groups">>;
 
 /**
  * Command model for creating a new group
@@ -177,7 +175,7 @@ export type GetGroupByIdResponseDto = GroupWithMetricsDto;
  * Public representation of a group item with camelCase fields
  * Derived from database 'group_items' table
  */
-export type GroupItemDto = CamelCaseKeys<Tables<'group_items'>>;
+export type GroupItemDto = CamelCaseKeys<Tables<"group_items">>;
 
 /**
  * Command model for adding queries to a group
@@ -201,7 +199,6 @@ export type AiClusterSuggestionDto = {
   queryCount: number;
   metrics: GroupMetricsDto;
 };
-
 
 /**
  * Single cluster to accept (subset of the original suggestion)
@@ -236,7 +233,7 @@ export type AcceptClustersResponseDto = {
  * Public representation of a user action with camelCase fields
  * Derived from database 'user_actions' table
  */
-export type UserActionDto = CamelCaseKeys<Tables<'user_actions'>>;
+export type UserActionDto = CamelCaseKeys<Tables<"user_actions">>;
 
 export type GetUserActionsRequestDto = {
   actionType?: string;
@@ -256,7 +253,7 @@ export type GetUserActionsResponseDto = {
  * Command model for creating a user action
  * Derived from database insert type
  */
-export type CreateUserActionDto = Omit<TablesInsert<'user_actions'>, 'id' | 'occurred_at'>;
+export type CreateUserActionDto = Omit<TablesInsert<"user_actions">, "id" | "occurred_at">;
 
 // ============================================================================
 // 8. Database Entity Insert/Update Types (for internal use)
@@ -265,18 +262,18 @@ export type CreateUserActionDto = Omit<TablesInsert<'user_actions'>, 'id' | 'occ
 /**
  * Insert types for creating new database records
  */
-export type QueryInsert = TablesInsert<'queries'>;
-export type GroupInsert = TablesInsert<'groups'>;
-export type GroupItemInsert = TablesInsert<'group_items'>;
-export type UserActionInsert = TablesInsert<'user_actions'>;
+export type QueryInsert = TablesInsert<"queries">;
+export type GroupInsert = TablesInsert<"groups">;
+export type GroupItemInsert = TablesInsert<"group_items">;
+export type UserActionInsert = TablesInsert<"user_actions">;
 
 /**
  * Update types for modifying existing database records
  */
-export type QueryUpdate = TablesUpdate<'queries'>;
-export type GroupUpdate = TablesUpdate<'groups'>;
-export type GroupItemUpdate = TablesUpdate<'group_items'>;
-export type UserActionUpdate = TablesUpdate<'user_actions'>;
+export type QueryUpdate = TablesUpdate<"queries">;
+export type GroupUpdate = TablesUpdate<"groups">;
+export type GroupItemUpdate = TablesUpdate<"group_items">;
+export type UserActionUpdate = TablesUpdate<"user_actions">;
 
 // ============================================================================
 // 9. Domain-specific type guards and validators
@@ -285,37 +282,36 @@ export type UserActionUpdate = TablesUpdate<'user_actions'>;
 /**
  * Valid sort fields for queries
  */
-export const QUERY_SORT_FIELDS = ['impressions', 'clicks','ctr', 'avgPosition'] as const;
-export type QuerySortField = typeof QUERY_SORT_FIELDS[number];
+export const QUERY_SORT_FIELDS = ["impressions", "clicks", "ctr", "avgPosition"] as const;
+export type QuerySortField = (typeof QUERY_SORT_FIELDS)[number];
 
 /**
  * Valid sort orders
  */
-export const SORT_ORDERS = ['asc', 'desc'] as const;
-export type SortOrder = typeof SORT_ORDERS[number];
+export const SORT_ORDERS = ["asc", "desc"] as const;
+export type SortOrder = (typeof SORT_ORDERS)[number];
 
 /**
  * Valid action types for user actions tracking
  */
 export const USER_ACTION_TYPES = [
-  'login',
-  'logout',
-  'import_initiated',
-  'import_completed',
-  'group_created',
-  'group_updated',
-  'group_deleted',
-  'group_item_added',
-  'group_item_removed',
-  'cluster_generated',
-  'cluster_accepted',
-  'cluster_rejected',
+  "login",
+  "logout",
+  "import_initiated",
+  "import_completed",
+  "group_created",
+  "group_updated",
+  "group_deleted",
+  "group_item_added",
+  "group_item_removed",
+  "cluster_generated",
+  "cluster_accepted",
+  "cluster_rejected",
 ] as const;
-export type UserActionType = typeof USER_ACTION_TYPES[number];
+export type UserActionType = (typeof USER_ACTION_TYPES)[number];
 
 /**
  * Import status values
  */
-export const IMPORT_STATUSES = ['processing', 'completed', 'failed'] as const;
-export type ImportStatus = typeof IMPORT_STATUSES[number];
-
+export const IMPORT_STATUSES = ["processing", "completed", "failed"] as const;
+export type ImportStatus = (typeof IMPORT_STATUSES)[number];

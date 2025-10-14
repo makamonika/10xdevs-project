@@ -1,15 +1,11 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '../../db/database.types';
-import type {
-  AiClusterSuggestionDto,
-  GroupWithMetricsDto,
-  AcceptClusterDto,
-} from '../../types';
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "../../db/database.types";
+import type { AiClusterSuggestionDto, GroupWithMetricsDto, AcceptClusterDto } from "../../types";
 
 /**
  * AI Clusters Service
  * Handles generation and acceptance of AI cluster suggestions
- * 
+ *
  * Architecture: Stateless - suggestions are generated on-demand and returned to client.
  * No server-side storage of suggestions. Acceptance creates groups directly from client data.
  */
@@ -22,7 +18,7 @@ import type {
  * Generate AI cluster suggestions
  * For MVP: returns mock clusters based on existing queries
  * For production: will call OpenRouter AI API
- * 
+ *
  * @returns Array of cluster suggestions (stateless, not stored)
  */
 export async function generateClusters(
@@ -31,10 +27,10 @@ export async function generateClusters(
 ): Promise<AiClusterSuggestionDto[]> {
   // Step 1: Fetch recent queries for clustering
   const { data: queries, error } = await supabase
-    .from('queries')
-    .select('query_text, impressions, clicks, ctr, avg_position')
-    .eq('user_id', userId)
-    .order('date', { ascending: false });
+    .from("queries")
+    .select("query_text, impressions, clicks, ctr, avg_position")
+    .eq("user_id", userId)
+    .order("date", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to fetch queries for clustering: ${error.message}`);
@@ -45,12 +41,12 @@ export async function generateClusters(
   const clusters: AiClusterSuggestionDto[] = [];
 
   // Step 3: Log user action
-  await supabase.from('user_actions').insert({
+  await supabase.from("user_actions").insert({
     user_id: userId,
-    action_type: 'cluster_generated',
-    metadata: { 
-      clusterCount: clusters.length, 
-      queryCount: queries?.length ?? 0 
+    action_type: "cluster_generated",
+    metadata: {
+      clusterCount: clusters.length,
+      queryCount: queries?.length ?? 0,
     },
   });
 
@@ -72,13 +68,13 @@ export async function acceptClusters(
   for (const cluster of clustersToAccept) {
     // Create group
     const { data: groupData, error: groupError } = await supabase
-      .from('groups')
+      .from("groups")
       .insert({
         name: cluster.name.trim(),
         user_id: userId,
         ai_generated: true,
       })
-      .select('*')
+      .select("*")
       .single();
 
     if (groupError) {
@@ -93,9 +89,7 @@ export async function acceptClusters(
         user_id: userId,
       }));
 
-      const { error: itemsError } = await supabase
-        .from('group_items')
-        .insert(groupItems);
+      const { error: itemsError } = await supabase.from("group_items").insert(groupItems);
 
       if (itemsError) {
         throw new Error(`Failed to add group items: ${itemsError.message}`);
@@ -122,9 +116,9 @@ export async function acceptClusters(
   }
 
   // Step 2: Log user action
-  await supabase.from('user_actions').insert({
+  await supabase.from("user_actions").insert({
     user_id: userId,
-    action_type: 'cluster_accepted',
+    action_type: "cluster_accepted",
     metadata: {
       acceptedCount: clustersToAccept.length,
       groupIds: createdGroups.map((g) => g.id),

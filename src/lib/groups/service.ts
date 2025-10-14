@@ -1,9 +1,9 @@
-import type { Tables } from '../../db/database.types';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '../../db/database.types';
-import type { GroupWithMetricsDto } from '../../types';
+import type { Tables } from "../../db/database.types";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "../../db/database.types";
+import type { GroupWithMetricsDto } from "../../types";
 
-type GroupRow = Tables<'groups'>;
+type GroupRow = Tables<"groups">;
 
 function mapGroupRowToDto(row: GroupRow): GroupWithMetricsDto {
   // TODO: Add aggregation for metrics (impressions, clicks, ctr, avgPosition) via SQL join
@@ -28,17 +28,17 @@ function mapGroupRowToDto(row: GroupRow): GroupWithMetricsDto {
 export async function listGroups(
   supabase: SupabaseClient<Database>,
   userId: string,
-  opts: { limit: number; offset: number; sortBy?: 'name' | 'createdAt'; order?: 'asc' | 'desc' }
+  opts: { limit: number; offset: number; sortBy?: "name" | "createdAt"; order?: "asc" | "desc" }
 ): Promise<GroupWithMetricsDto[]> {
   // Fetch groups owned by the user; metrics aggregation to be added next
   // Map sort fields to DB columns
-  const sortColumn = opts.sortBy === 'name' ? 'name' : 'created_at';
-  const ascending = (opts.order ?? 'desc') === 'asc';
+  const sortColumn = opts.sortBy === "name" ? "name" : "created_at";
+  const ascending = (opts.order ?? "desc") === "asc";
 
   const { data, error } = await supabase
-    .from('groups')
-    .select('*')
-    .eq('user_id', userId)
+    .from("groups")
+    .select("*")
+    .eq("user_id", userId)
     .order(sortColumn, { ascending })
     .range(opts.offset, opts.offset + opts.limit - 1);
 
@@ -60,18 +60,18 @@ export async function createGroup(
 ): Promise<GroupWithMetricsDto> {
   const name = payload.name.trim();
   if (name.length === 0) {
-    throw new Error('Group name cannot be empty');
+    throw new Error("Group name cannot be empty");
   }
-   await assertUniqueGroupName(supabase, userId, name);
+  await assertUniqueGroupName(supabase, userId, name);
 
   const { data, error } = await supabase
-    .from('groups')
+    .from("groups")
     .insert({
       name,
       user_id: userId,
       ai_generated: payload.aiGenerated ?? false,
     })
-    .select('*')
+    .select("*")
     .single();
 
   if (error) {
@@ -87,10 +87,10 @@ export async function getGroupById(
   groupId: string
 ): Promise<GroupWithMetricsDto | null> {
   const { data, error } = await supabase
-    .from('groups')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('id', groupId)
+    .from("groups")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("id", groupId)
     .maybeSingle();
 
   if (error) {
@@ -118,11 +118,11 @@ export async function updateGroup(
   }
 
   const { data, error } = await supabase
-    .from('groups')
+    .from("groups")
     .update(updates)
-    .eq('user_id', userId)
-    .eq('id', groupId)
-    .select('*')
+    .eq("user_id", userId)
+    .eq("id", groupId)
+    .select("*")
     .maybeSingle();
 
   if (error) {
@@ -140,10 +140,10 @@ export async function deleteGroup(
   groupId: string
 ): Promise<boolean> {
   const { error, count } = await supabase
-    .from('groups')
-    .delete({ count: 'exact' })
-    .eq('user_id', userId)
-    .eq('id', groupId);
+    .from("groups")
+    .delete({ count: "exact" })
+    .eq("user_id", userId)
+    .eq("id", groupId);
 
   if (error) {
     throw new Error(`Failed to delete group: ${error.message}`);
@@ -152,9 +152,9 @@ export async function deleteGroup(
 }
 
 export class DuplicateGroupNameError extends Error {
-  constructor(message = 'A group with this name already exists') {
+  constructor(message = "A group with this name already exists") {
     super(message);
-    this.name = 'DuplicateGroupNameError';
+    this.name = "DuplicateGroupNameError";
   }
 }
 
@@ -165,12 +165,12 @@ async function assertUniqueGroupName(
   excludeGroupId?: string
 ): Promise<void> {
   let query = supabase
-    .from('groups')
-    .select('id', { head: true, count: 'exact' })
-    .eq('user_id', userId)
-    .ilike('name', name);
+    .from("groups")
+    .select("id", { head: true, count: "exact" })
+    .eq("user_id", userId)
+    .ilike("name", name);
   if (excludeGroupId) {
-    query = query.neq('id', excludeGroupId);
+    query = query.neq("id", excludeGroupId);
   }
   const { count, error } = await query;
   if (error) {
@@ -180,5 +180,3 @@ async function assertUniqueGroupName(
     throw new DuplicateGroupNameError();
   }
 }
-
-

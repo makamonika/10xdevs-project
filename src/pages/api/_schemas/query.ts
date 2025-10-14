@@ -25,4 +25,3 @@ export const queryParamsSchema = z
   });
 
 export type QueryParamsInput = z.infer<typeof queryParamsSchema>;
-
