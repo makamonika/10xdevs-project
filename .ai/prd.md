@@ -88,31 +88,32 @@ The SEO Query Insights Dashboard addresses these challenges by providing a centr
 - FR-18: The system shall maintain query groups as private to each user
 - FR-19: The system shall display aggregated metrics for each query group
 - FR-20: The system shall visualize query groups as lists/cards with group name, query count, and metrics
-  - Sorting (MVP): Users can sort groups by name or created date (ascending/descending).
+  - Sorting (MVP): Users can sort groups by name, created date, or AI-generated status (ascending/descending).
+- FR-21: The system shall allow users to search for groups by name (case-insensitive partial match)
 
 ### 3.4 AI-Assisted Clustering
 
-- FR-21: The system shall generate AI-suggested query clusters using text embeddings and K-means algorithm
-- FR-22: The system shall automatically name generated clusters based on representative queries
-- FR-23: The system shall allow users to approve, edit, or discard AI-suggested clusters
-- FR-24: The system shall display performance metrics for each AI-generated cluster
-- FR-25: The system shall handle queries in different languages as distinct entities
-- FR-26: (MVP persistence policy): AI-suggested clusters are ephemeral and are not persisted to the database unless the user accepts them
-- FR-27: (MVP persistence policy): When a cluster is accepted, it is saved as a private user group with its queries; discarded clusters are not saved, but accept and discard actions are logged for analytics
+- FR-22: The system shall generate AI-suggested query clusters using text embeddings and K-means algorithm
+- FR-23: The system shall automatically name generated clusters based on representative queries
+- FR-24: The system shall allow users to approve, edit, or discard AI-suggested clusters
+- FR-25: The system shall display performance metrics for each AI-generated cluster
+- FR-26: The system shall handle queries in different languages as distinct entities
+- FR-27: (MVP persistence policy): AI-suggested clusters are ephemeral and are not persisted to the database unless the user accepts them
+- FR-28: (MVP persistence policy): When a cluster is accepted, it is saved as a private user group with its queries; discarded clusters are not saved, but accept and discard actions are logged for analytics
 
 ### 3.5 Opportunity Detection
 
-- FR-26: The system shall automatically flag queries as opportunities based on the following criteria:
+- FR-29: The system shall automatically flag queries as opportunities based on the following criteria:
   - Impressions > 1,000
   - CTR < 1%
   - Average position between 5-15
-- FR-27: The system shall provide visual indicators for opportunity queries in the dashboard
-- FR-28: The system shall allow filtering to show only opportunity queries
+- FR-30: The system shall provide visual indicators for opportunity queries in the dashboard
+- FR-31: The system shall allow filtering to show only opportunity queries
 
 ### 3.6 Authentication
 
-- FR-29: The system shall require user authentication via username/password
-- FR-30: The system shall limit access to authorized SEO team members only
+- FR-32: The system shall require user authentication via username/password
+- FR-33: The system shall limit access to authorized SEO team members only
 
 ## 4. Product Boundaries
 
@@ -304,6 +305,32 @@ The following features are explicitly excluded from the MVP:
 - System shows query count per group
 - Metrics update when group composition changes
 - Metrics are displayed in consistent format with query metrics
+
+#### US-014a: Sort Groups
+**As an** SEO specialist,  
+**I want to** sort my query groups by different criteria,  
+**So that** I can organize and prioritize my work effectively.
+
+**Acceptance Criteria:**
+- System allows sorting by group name (alphabetically)
+- System allows sorting by creation date
+- System allows sorting by AI-generated status (to separate manual vs AI groups)
+- System allows ascending and descending sort order
+- System applies sorting within 500ms
+- System indicates current sort field and direction
+
+#### US-014b: Search Groups by Name
+**As an** SEO specialist,  
+**I want to** search for groups by name,  
+**So that** I can quickly find specific groups in my collection.
+
+**Acceptance Criteria:**
+- System provides search input field for group names
+- System filters group list based on search input (case-insensitive partial match)
+- Search results update within 500ms
+- System handles partial text matches
+- System displays "no results" message when appropriate
+- Search works in combination with sorting
 
 ### 5.5 AI-Assisted Clustering
 

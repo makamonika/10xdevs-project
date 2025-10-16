@@ -29,8 +29,9 @@ export const pathParamsSchema = z.object({
 });
 
 export const groupListQuerySchema = paginationSchema.extend({
-  sortBy: z.enum(["name", "createdAt"]).optional().default("createdAt"),
+  sortBy: z.enum(["name", "createdAt", "aiGenerated"]).optional().default("createdAt"),
   order: z.enum(["asc", "desc"]).optional().default("desc"),
+  search: z.string().trim().optional(),
 });
 
 export type CreateGroupInput = z.infer<typeof createGroupSchema>;

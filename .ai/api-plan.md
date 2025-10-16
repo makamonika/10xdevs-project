@@ -111,10 +111,20 @@ All subsequent endpoints require header `Authorization: Bearer <accessToken>`.
 }
 ```
 
-#### Basic sorting (MVP)
+#### GET `/groups` parameters
 
-- Supported params: `sortBy` in `name | createdAt` (default: `createdAt`), `order` in `asc | desc` (default: `desc`).
-- Example: `/groups?sortBy=name&order=asc`.
+| Param | Type | Default | Notes |
+|-------|------|---------|-------|
+| `search` | string | – | Case-insensitive partial match on `name` |
+| `sortBy` | `name \| createdAt \| aiGenerated` | createdAt | Field to sort |
+| `order` | `asc \| desc` | desc | Sort direction |
+| `limit` | int | 50 | 1-200 |
+| `offset` | int | 0 | For pagination |
+
+##### Examples
+- `/groups?sortBy=name&order=asc` - Sort by name alphabetically
+- `/groups?sortBy=aiGenerated&order=desc` - AI-generated groups first
+- `/groups?search=topical&sortBy=createdAt` - Search for "topical" and sort by creation date
 
 ##### Errors
 `400` validation, `404` not found, `403` forbidden (not owner).

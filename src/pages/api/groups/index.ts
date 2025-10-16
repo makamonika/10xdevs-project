@@ -26,6 +26,7 @@ export const GET: APIRoute = async ({ locals, request }) => {
       offset: url.searchParams.get("offset"),
       sortBy: url.searchParams.get("sortBy") || undefined,
       order: url.searchParams.get("order") || undefined,
+      search: url.searchParams.get("search") || undefined,
     });
 
     if (!parse.success) {
@@ -47,6 +48,7 @@ export const GET: APIRoute = async ({ locals, request }) => {
       offset: parse.data.offset,
       sortBy: parse.data.sortBy,
       order: parse.data.order,
+      search: parse.data.search,
     });
     const response: GetGroupsResponseDto = { data: groups };
 
