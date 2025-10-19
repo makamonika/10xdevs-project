@@ -6,6 +6,7 @@ import { EditableHeader } from "./EditableHeader";
 import { MetricsSummary } from "./MetricsSummary";
 import { QueriesTable } from "@/components/queries/QueriesTable";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { Pagination } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, Trash2Icon } from "lucide-react";
 import { LiveRegion } from "@/components/queries/LiveRegion";
@@ -32,20 +33,26 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
   const [sortBy, setSortBy] = useState<QuerySortField>("impressions");
   const [order, setOrder] = useState<SortOrder>("desc");
 
+  // Pagination state
+  const [pageSize, setPageSize] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate offset from current page
+  const offset = (currentPage - 1) * pageSize;
+
   // Fetch group data
-  const {
-    data: group,
-    isLoading: isLoadingGroup,
-    error: groupError,
-    refetch: refetchGroup,
-  } = useGroup(groupId);
+  const { data: group, isLoading: isLoadingGroup, error: groupError, refetch: refetchGroup } = useGroup(groupId);
 
   // Fetch member queries
   const {
     data: members,
+    meta,
     isLoading: isLoadingMembers,
     refetch: refetchMembers,
-  } = useGroupItems(groupId);
+  } = useGroupItems(groupId, {
+    limit: pageSize,
+    offset,
+  });
 
   // Group actions (rename, delete)
   const { isRenamingId, isDeletingId, handleRename, handleDelete } = useGroupActions({
@@ -62,14 +69,14 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
     sorted.sort((a, b) => {
       const aVal = a[sortBy];
       const bVal = b[sortBy];
-      
+
       // Handle string sorting (for queryText, url)
       if (typeof aVal === "string" && typeof bVal === "string") {
-        return order === "asc" 
+        return order === "asc"
           ? (aVal as string).localeCompare(bVal as string)
           : (bVal as string).localeCompare(aVal as string);
       }
-      
+
       // Handle number sorting
       const diff = (aVal as number) - (bVal as number);
       return order === "asc" ? diff : -diff;
@@ -82,9 +89,20 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
     ({ sortBy: newSortBy, order: newOrder }: { sortBy: QuerySortField; order: SortOrder }) => {
       setSortBy(newSortBy);
       setOrder(newOrder);
+      setCurrentPage(1); // Reset to first page on sort change
     },
     []
   );
+
+  // Pagination handlers - now receive offset values from Pagination component
+  const handlePageChange = useCallback((newOffset: number) => {
+    setCurrentPage(Math.floor(newOffset / pageSize) + 1);
+  }, [pageSize]);
+
+  const handlePageSizeChange = useCallback((newLimit: number) => {
+    setPageSize(newLimit);
+    setCurrentPage(1); // Reset to first page when page size changes
+  }, []);
 
   // Handle rename
   const handleRenameGroup = async (name: string) => {
@@ -141,14 +159,12 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
   // Error state (handles both errors and not found)
   if (groupError || !group) {
     const isNotFound = groupError?.message === "Group not found";
-    
+
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <h1 className="text-2xl font-bold">
-              {isNotFound ? "Group Not Found" : "Error Loading Group"}
-            </h1>
+            <h1 className="text-2xl font-bold">{isNotFound ? "Group Not Found" : "Error Loading Group"}</h1>
             <p className="text-muted-foreground">
               {isNotFound
                 ? "The group you're looking for doesn't exist or has been deleted."
@@ -201,8 +217,8 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
         <MetricsSummary metrics={group.metrics} queryCount={group.queryCount} />
 
         {/* Member Queries Table */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Member Queries ({members.length})</h2>
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold">Member Queries ({meta.total})</h2>
           <QueriesTable
             rows={sortedMembers}
             isLoading={isLoadingMembers}
@@ -223,6 +239,17 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
               </Button>
             )}
           />
+
+          {/* Pagination */}
+          {!isLoadingMembers && members.length > 0 && (
+            <Pagination
+              meta={meta}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              pageSizeOptions={[25, 50, 100, 200]}
+              isLoading={isLoadingMembers}
+            />
+          )}
         </div>
       </div>
 
@@ -251,4 +278,3 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
     </div>
   );
 }
-

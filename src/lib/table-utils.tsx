@@ -76,4 +76,3 @@ export function getNextSortState<T extends string>(
     };
   }
 }
-

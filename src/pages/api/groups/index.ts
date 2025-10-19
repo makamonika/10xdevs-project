@@ -43,14 +43,21 @@ export const GET: APIRoute = async ({ locals, request }) => {
       });
     }
 
-    const groups = await listGroups(locals.supabase, userId, {
+    const result = await listGroups(locals.supabase, userId, {
       limit: parse.data.limit,
       offset: parse.data.offset,
       sortBy: parse.data.sortBy,
       order: parse.data.order,
       search: parse.data.search,
     });
-    const response: GetGroupsResponseDto = { data: groups };
+    const response: GetGroupsResponseDto = {
+      data: result.data,
+      meta: {
+        total: result.total,
+        limit: parse.data.limit,
+        offset: parse.data.offset,
+      },
+    };
 
     return new Response(JSON.stringify(response), {
       status: 200,

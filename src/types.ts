@@ -30,6 +30,15 @@ export type PaginationMeta = {
 };
 
 /**
+ * Pagination parameters for list requests
+ * Subset of PaginationMeta (without total, which is only known after query)
+ */
+export type PaginationParams = {
+  limit?: number;
+  offset?: number;
+};
+
+/**
  * Standard error response structure
  */
 export type ErrorResponse = {
@@ -78,27 +87,19 @@ export type RefreshTokenResponseDto = LoginResponseDto;
  */
 export type QueryDto = CamelCaseKeys<Tables<"queries">>;
 
-export type GetQueriesRequestDto = {
+export type GetQueriesRequestDto = PaginationParams & {
   search?: string;
   isOpportunity?: boolean;
   sortBy?: "impressions" | "clicks" | "ctr" | "avgPosition";
   order?: "asc" | "desc";
-  limit?: number;
-  offset?: number;
 };
 
-export type GetQueriesResponseDto = QueryDto[];
-
 /**
- * View model for queries list with pagination metadata
+ * Response for queries list with pagination metadata
  */
-export type GetQueriesResponseView = {
-  rows: QueryDto[];
-  meta: {
-    total: number;
-    limit: number;
-    offset: number;
-  };
+export type GetQueriesResponseDto = {
+  data: QueryDto[];
+  meta: PaginationMeta;
 };
 
 // ============================================================================
@@ -175,6 +176,7 @@ export type GroupWithMetricsDto = GroupDto & {
 
 export type GetGroupsResponseDto = {
   data: GroupWithMetricsDto[];
+  meta: PaginationMeta;
 };
 
 export type GetGroupByIdResponseDto = GroupWithMetricsDto;
@@ -194,6 +196,14 @@ export type GroupItemDto = CamelCaseKeys<Tables<"group_items">>;
  */
 export type AddGroupItemsRequestDto = {
   queryIds: string[];
+};
+
+/**
+ * Response for group items list with pagination metadata
+ */
+export type GetGroupItemsResponseDto = {
+  data: QueryDto[];
+  meta: PaginationMeta;
 };
 
 // ============================================================================
@@ -247,13 +257,11 @@ export type AcceptClustersResponseDto = {
  */
 export type UserActionDto = CamelCaseKeys<Tables<"user_actions">>;
 
-export type GetUserActionsRequestDto = {
+export type GetUserActionsRequestDto = PaginationParams & {
   actionType?: string;
   userId?: string;
   startDate?: string;
   endDate?: string;
-  limit?: number;
-  offset?: number;
 };
 
 export type GetUserActionsResponseDto = {

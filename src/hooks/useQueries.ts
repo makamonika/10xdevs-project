@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import type { GetQueriesResponseDto, QueryDto } from "@/types";
+import type { GetQueriesResponseDto, QueryDto, PaginationMeta, PaginationParams } from "@/types";
 
-export interface UseQueriesParams {
+export interface UseQueriesParams extends PaginationParams {
   search?: string;
   isOpportunity?: boolean;
   sortBy?: "impressions" | "clicks" | "ctr" | "avgPosition";
   order?: "asc" | "desc";
-  limit?: number;
-  offset?: number;
 }
 
 export interface UseQueriesResult {
   data: QueryDto[];
+  meta: PaginationMeta;
   isLoading: boolean;
   error: Error | null;
   refetch: () => void;
@@ -21,10 +20,11 @@ export interface UseQueriesResult {
 /**
  * Custom hook to fetch queries with filters, sorting, and pagination
  * @param params - Query parameters for filtering and sorting
- * @returns Query data, loading state, error, and refetch function
+ * @returns Query data, pagination metadata, loading state, error, and refetch function
  */
 export function useQueries(params: UseQueriesParams): UseQueriesResult {
   const [data, setData] = useState<QueryDto[]>([]);
+  const [meta, setMeta] = useState<PaginationMeta>({ total: 0, limit: params.limit || 50, offset: params.offset || 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [refetchTrigger, setRefetchTrigger] = useState(0);
@@ -74,7 +74,8 @@ export function useQueries(params: UseQueriesParams): UseQueriesResult {
         const result: GetQueriesResponseDto = await response.json();
 
         if (!isCancelled) {
-          setData(result);
+          setData(result.data);
+          setMeta(result.meta);
         }
       } catch (err) {
         if (!isCancelled) {
@@ -98,5 +99,5 @@ export function useQueries(params: UseQueriesParams): UseQueriesResult {
     };
   }, [params.search, params.isOpportunity, params.sortBy, params.order, params.limit, params.offset, refetchTrigger]);
 
-  return { data, isLoading, error, refetch };
+  return { data, meta, isLoading, error, refetch };
 }

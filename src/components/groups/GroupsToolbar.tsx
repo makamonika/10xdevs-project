@@ -16,4 +16,3 @@ export function GroupsToolbar({ search, onSearchChange, onGenerateAI, isGenerati
     </div>
   );
 }
-

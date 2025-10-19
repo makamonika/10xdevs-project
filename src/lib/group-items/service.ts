@@ -205,25 +205,33 @@ export async function removeGroupItem(
  * Get all queries that are members of a group
  * Returns full query data joined with group membership via foreign key
  * Ordered by impressions descending by default
+ * Supports pagination with limit and offset
  */
 export async function getGroupItems(
   supabase: SupabaseClient<Database>,
   userId: string,
-  groupId: string
-): Promise<QueryDto[]> {
+  groupId: string,
+  opts?: {
+    limit?: number;
+    offset?: number;
+  }
+): Promise<{ data: QueryDto[]; total: number }> {
   // Step 1: Verify group exists and belongs to user
   await verifyGroupOwnership(supabase, userId, groupId);
 
   // Step 2: Join group_items with queries using the foreign key relationship
   // Using inner join to only get items where the query exists
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from("group_items")
-    .select(`
+    .select(
+      `
       query_id,
       queries!inner (
         ${QUERIES_COLUMNS}
       )
-    `)
+    `,
+      { count: "exact" }
+    )
     .eq("group_id", groupId);
 
   if (error) {
@@ -231,7 +239,7 @@ export async function getGroupItems(
   }
 
   if (!data || data.length === 0) {
-    return [];
+    return { data: [], total: 0 };
   }
 
   // Step 3: Map to QueryDto and sort by impressions descending
@@ -245,5 +253,13 @@ export async function getGroupItems(
     .filter((q): q is QueryDto => q !== null);
 
   // Sort by impressions descending (client-side since ordering related fields can be tricky)
-  return queries.sort((a, b) => b.impressions - a.impressions);
+  const sortedQueries = queries.sort((a, b) => b.impressions - a.impressions);
+
+  // Apply pagination if provided
+  if (opts?.limit !== undefined && opts?.offset !== undefined) {
+    const paginatedQueries = sortedQueries.slice(opts.offset, opts.offset + opts.limit);
+    return { data: paginatedQueries, total: count ?? 0 };
+  }
+
+  return { data: sortedQueries, total: count ?? 0 };
 }

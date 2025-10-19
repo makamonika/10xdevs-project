@@ -59,17 +59,7 @@ export const QueriesTable = memo(function QueriesTable({
   }
 
   // Build grid columns template based on enabled features
-  const gridCols = [
-    hasSelection && "40px",
-    "2fr",
-    "2fr",
-    "1fr",
-    "1fr",
-    "1fr",
-    "1fr",
-    "120px",
-    hasActions && "80px",
-  ]
+  const gridCols = [hasSelection && "40px", "2fr", "2fr", "1fr", "1fr", "1fr", "1fr", "120px", hasActions && "80px"]
     .filter(Boolean)
     .join(" ");
   const gridColsClass = `grid gap-4`;
@@ -77,11 +67,11 @@ export const QueriesTable = memo(function QueriesTable({
   return (
     <div className="mt-6 rounded-md border">
       {/* Table header */}
-      <div className={`${gridColsClass} border-b bg-muted/50 px-4 py-3 text-sm font-medium`} style={{ gridTemplateColumns: gridCols }}>
-        {hasSelection && (
-          <div className="flex items-center justify-center" role="columnheader">
-          </div>
-        )}
+      <div
+        className={`${gridColsClass} border-b bg-muted/50 px-4 py-3 text-sm font-medium`}
+        style={{ gridTemplateColumns: gridCols }}
+      >
+        {hasSelection && <div className="flex items-center justify-center" role="columnheader"></div>}
         <button
           type="button"
           onClick={() => handleColumnHeaderClick("impressions")}
@@ -135,7 +125,9 @@ export const QueriesTable = memo(function QueriesTable({
         </button>
         <div role="columnheader">Opportunity</div>
         {hasActions && (
-          <div className="text-center" role="columnheader">Actions</div>
+          <div className="text-center" role="columnheader">
+            Actions
+          </div>
         )}
       </div>
 

@@ -36,13 +36,13 @@ export async function listGroups(
     order?: "asc" | "desc";
     search?: string;
   }
-): Promise<GroupWithMetricsDto[]> {
+): Promise<{ data: GroupWithMetricsDto[]; total: number }> {
   // Fetch groups owned by the user; metrics aggregation to be added next
   // Map sort fields to DB columns
   const sortColumn = opts.sortBy === "name" ? "name" : opts.sortBy === "aiGenerated" ? "ai_generated" : "created_at";
   const ascending = (opts.order ?? "desc") === "asc";
 
-  let query = supabase.from("groups").select("*").eq("user_id", userId);
+  let query = supabase.from("groups").select("*", { count: "exact" }).eq("user_id", userId);
 
   // Apply search filter if provided
   if (opts.search && opts.search.trim().length > 0) {
@@ -51,17 +51,17 @@ export async function listGroups(
 
   query = query.order(sortColumn, { ascending }).range(opts.offset, opts.offset + opts.limit - 1);
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
 
   if (error) {
     throw new Error(`Failed to list groups: ${error.message}`);
   }
 
   if (!data) {
-    return [];
+    return { data: [], total: 0 };
   }
   // TODO: Add queryCount when implementing metrics aggregation
-  return data.map(mapGroupRowToDto);
+  return { data: data.map(mapGroupRowToDto), total: count ?? 0 };
 }
 
 export async function createGroup(

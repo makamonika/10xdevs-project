@@ -36,12 +36,7 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
 
   // Remove item from group
   try {
-    const result = await removeGroupItem(
-      locals.supabase,
-      userId,
-      parsedParams.data.groupId,
-      parsedParams.data.queryId
-    );
+    const result = await removeGroupItem(locals.supabase, userId, parsedParams.data.groupId, parsedParams.data.queryId);
 
     if (!result.removed) {
       const errorResponse: ErrorResponse = {
@@ -86,4 +81,3 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
     });
   }
 };
-

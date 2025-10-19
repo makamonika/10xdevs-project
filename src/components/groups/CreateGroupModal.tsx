@@ -123,12 +123,7 @@ export function CreateGroupModal({
           </div>
 
           <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={isSubmitting}
-            >
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting || !name.trim()}>
@@ -140,4 +135,3 @@ export function CreateGroupModal({
     </Dialog>
   );
 }
-

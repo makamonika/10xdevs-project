@@ -9,4 +9,3 @@ export function TableEmptyState({ message }: TableEmptyStateProps) {
     </div>
   );
 }
-

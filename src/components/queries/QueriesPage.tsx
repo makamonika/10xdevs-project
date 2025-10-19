@@ -4,6 +4,7 @@ import { PageHeader } from "./PageHeader";
 import { QueriesTableWithControls } from "./QueriesTableWithControls";
 import { LiveRegion } from "./LiveRegion";
 import { CreateGroupModal } from "@/components/groups/CreateGroupModal";
+import { Pagination } from "@/components/ui/pagination";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useQueries } from "@/hooks/useQueries";
 import { useSelection } from "@/hooks/useSelection";
@@ -22,8 +23,13 @@ export function QueriesPage() {
   const [isOpportunity, setIsOpportunity] = useState<boolean>();
   const [sortBy, setSortBy] = useState<QuerySortField>("impressions");
   const [order, setOrder] = useState<SortOrder>("desc");
-  const [limit] = useState(100);
-  const [offset] = useState(0);
+  
+  // Pagination state
+  const [pageSize, setPageSize] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Calculate offset from current page
+  const offset = (currentPage - 1) * pageSize;
 
   // Modal state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -34,6 +40,7 @@ export function QueriesPage() {
   // Fetch queries
   const {
     data: queries,
+    meta,
     isLoading,
     error,
     refetch,
@@ -42,7 +49,7 @@ export function QueriesPage() {
     isOpportunity,
     sortBy,
     order,
-    limit,
+    limit: pageSize,
     offset,
   });
 
@@ -76,19 +83,32 @@ export function QueriesPage() {
   // Toolbar handlers - memoized to prevent unnecessary re-renders
   const handleSearchChange = useCallback((value: string) => {
     setSearch(value);
+    setCurrentPage(1); // Reset to first page on search
   }, []);
 
   const handleOpportunityToggle = useCallback((checked: boolean) => {
     setIsOpportunity(checked);
+    setCurrentPage(1); // Reset to first page on filter change
   }, []);
 
   const handleSortChange = useCallback(
     ({ sortBy: newSortBy, order: newOrder }: { sortBy: QuerySortField; order: SortOrder }) => {
       setSortBy(newSortBy);
       setOrder(newOrder);
+      setCurrentPage(1); // Reset to first page on sort change
     },
     []
   );
+
+  // Pagination handlers - now receive offset values from Pagination component
+  const handlePageChange = useCallback((newOffset: number) => {
+    setCurrentPage(Math.floor(newOffset / pageSize) + 1);
+  }, [pageSize]);
+
+  const handlePageSizeChange = useCallback((newLimit: number) => {
+    setPageSize(newLimit);
+    setCurrentPage(1); // Reset to first page when page size changes
+  }, []);
 
   const handleOpenNewGroup = useCallback(() => {
     if (selected.size === 0) {
@@ -133,28 +153,41 @@ export function QueriesPage() {
       <PageHeader lastImportAt={lastImportAt} isImporting={isImporting} hasFailed={hasFailed} onImport={handleImport} />
 
       <div className="container mx-auto px-4 py-8">
-        <QueriesTableWithControls
-          rows={queries}
-          isLoading={isLoading}
-          search={search}
-          isOpportunity={isOpportunity}
-          onSearchChange={handleSearchChange}
-          onOpportunityToggle={handleOpportunityToggle}
-          sortBy={sortBy}
-          order={order}
-          onSortChange={handleSortChange}
-          selected={selected}
-          onToggleRow={toggleRow}
-          onOpenNewGroup={handleOpenNewGroup}
-          onGenerateAI={handleGenerateAI}
-          isGeneratingAI={isGeneratingAI}
-        />
+        <div className="space-y-4">
+          <QueriesTableWithControls
+            rows={queries}
+            isLoading={isLoading}
+            search={search}
+            isOpportunity={isOpportunity}
+            onSearchChange={handleSearchChange}
+            onOpportunityToggle={handleOpportunityToggle}
+            sortBy={sortBy}
+            order={order}
+            onSortChange={handleSortChange}
+            selected={selected}
+            onToggleRow={toggleRow}
+            onOpenNewGroup={handleOpenNewGroup}
+            onGenerateAI={handleGenerateAI}
+            isGeneratingAI={isGeneratingAI}
+          />
 
-        {error && (
-          <div className="mt-4 rounded-md bg-red-50 p-4 text-sm text-red-800" role="alert">
-            Error: {error.message}
-          </div>
-        )}
+          {/* Pagination */}
+          {!isLoading && queries.length > 0 && (
+            <Pagination
+              meta={meta}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              pageSizeOptions={[25, 50, 100, 200]}
+              isLoading={isLoading}
+            />
+          )}
+
+          {error && (
+            <div className="mt-4 rounded-md bg-red-50 p-4 text-sm text-red-800" role="alert">
+              Error: {error.message}
+            </div>
+          )}
+        </div>
 
         <CreateGroupModal
           open={isCreateModalOpen}

@@ -17,14 +17,7 @@ export interface EditableHeaderProps {
  * Editable group header with inline editing, AI badge, and delete button
  * Handles validation: non-empty, max length, no change detection
  */
-export function EditableHeader({
-  name,
-  aiGenerated,
-  isSaving,
-  isDeleting,
-  onRename,
-  onDelete,
-}: EditableHeaderProps) {
+export function EditableHeader({ name, aiGenerated, isSaving, isDeleting, onRename, onDelete }: EditableHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(name);
   const [error, setError] = useState<string | null>(null);
@@ -156,4 +149,3 @@ export function EditableHeader({
     </div>
   );
 }
-

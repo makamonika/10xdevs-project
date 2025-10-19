@@ -10,7 +10,7 @@ export const prerender = false;
 /**
  * Transforms database record (snake_case) to DTO (camelCase)
  */
-function transformQueryToDto(query: Tables<"queries">): GetQueriesResponseDto[number] {
+function transformQueryToDto(query: Tables<"queries">): GetQueriesResponseDto["data"][number] {
   return {
     id: query.id,
     date: query.date,
@@ -69,7 +69,8 @@ export const GET: APIRoute = async ({ locals, url }) => {
     const dbSortColumn = params.sortBy === "avgPosition" ? "avg_position" : params.sortBy;
     const ascending = params.order === "asc";
 
-    let query = supabase.from("queries").select(QUERIES_COLUMNS);
+    // Build base query for data
+    let query = supabase.from("queries").select(QUERIES_COLUMNS, { count: "exact" });
 
     // Step 3: Apply filters
     if (params.search) {
@@ -88,7 +89,7 @@ export const GET: APIRoute = async ({ locals, url }) => {
     query = query.range(params.offset, params.offset + params.limit - 1);
 
     // Step 4: Execute query
-    const { data, error } = await query;
+    const { data, error, count } = await query;
 
     if (error) {
       console.error("Supabase query error:", error);
@@ -105,7 +106,14 @@ export const GET: APIRoute = async ({ locals, url }) => {
     }
 
     // Step 5: Transform database records to DTOs with camelCase fields
-    const responseData: GetQueriesResponseDto = data.map(transformQueryToDto);
+    const responseData: GetQueriesResponseDto = {
+      data: data.map(transformQueryToDto),
+      meta: {
+        total: count ?? 0,
+        limit: params.limit,
+        offset: params.offset,
+      },
+    };
 
     return new Response(JSON.stringify(responseData), {
       status: 200,

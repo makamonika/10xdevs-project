@@ -52,4 +52,3 @@ export function MetricsSummary({ metrics, queryCount }: MetricsSummaryProps) {
     </div>
   );
 }
-

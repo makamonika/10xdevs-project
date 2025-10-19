@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import type { GetGroupsResponseDto, GroupWithMetricsDto, SortOrder } from "@/types";
+import type { GetGroupsResponseDto, GroupWithMetricsDto, SortOrder, PaginationMeta, PaginationParams } from "@/types";
 
 /**
  * Valid sort fields for groups
  */
 export type GroupSortField = "name" | "createdAt" | "aiGenerated";
 
-export interface UseGroupsParams {
+export interface UseGroupsParams extends PaginationParams {
   search?: string;
   sortBy?: GroupSortField;
   order?: SortOrder;
-  limit?: number;
-  offset?: number;
 }
 
 export interface UseGroupsResult {
   data: GroupWithMetricsDto[];
+  meta: PaginationMeta;
   isLoading: boolean;
   error: Error | null;
   refetch: () => void;
@@ -25,10 +24,11 @@ export interface UseGroupsResult {
 /**
  * Custom hook to fetch groups with filters, sorting, and pagination
  * @param params - Query parameters for filtering and sorting
- * @returns Group data, loading state, error, and refetch function
+ * @returns Group data, pagination metadata, loading state, error, and refetch function
  */
 export function useGroups(params: UseGroupsParams): UseGroupsResult {
   const [data, setData] = useState<GroupWithMetricsDto[]>([]);
+  const [meta, setMeta] = useState<PaginationMeta>({ total: 0, limit: params.limit || 50, offset: params.offset || 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [refetchTrigger, setRefetchTrigger] = useState(0);
@@ -84,6 +84,7 @@ export function useGroups(params: UseGroupsParams): UseGroupsResult {
 
         if (!isCancelled) {
           setData(result.data);
+          setMeta(result.meta);
         }
       } catch (err) {
         if (!isCancelled) {
@@ -107,7 +108,7 @@ export function useGroups(params: UseGroupsParams): UseGroupsResult {
     };
   }, [params.search, params.sortBy, params.order, params.limit, params.offset, refetchTrigger]);
 
-  return { data, isLoading, error, refetch };
+  return { data, meta, isLoading, error, refetch };
 }
 
 /**
@@ -180,4 +181,3 @@ export function useGroup(groupId: string) {
 
   return { data, isLoading, error, refetch };
 }
-

@@ -192,9 +192,7 @@ export const GroupsTable = memo(function GroupsTable({
                 <TableCell className="text-right tabular-nums">{formatNumber(group.metrics.impressions)}</TableCell>
                 <TableCell className="text-right tabular-nums">{formatNumber(group.metrics.clicks)}</TableCell>
                 <TableCell className="text-right tabular-nums">{formatCTR(group.metrics.ctr)}</TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {formatNumber(group.metrics.avgPosition, 1)}
-                </TableCell>
+                <TableCell className="text-right tabular-nums">{formatNumber(group.metrics.avgPosition, 1)}</TableCell>
                 <TableCell className="text-muted-foreground">{formatDate(group.createdAt)}</TableCell>
                 <TableCell className="text-right">
                   {isDeleteConfirm ? (
@@ -262,4 +260,3 @@ export const GroupsTable = memo(function GroupsTable({
     </div>
   );
 });
-

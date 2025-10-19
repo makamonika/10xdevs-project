@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import type { ErrorResponse, QueryDto } from "../../../../types";
+import type { ErrorResponse, GetGroupItemsResponseDto } from "../../../../types";
 import { pathParamsSchema } from "../../_schemas/group";
 import { addItemsBodySchema } from "../../_schemas/groupItem";
 import { addGroupItems, getGroupItems, GroupNotFoundError } from "../../../../lib/group-items/service";
@@ -10,11 +10,16 @@ export const prerender = false;
  * GET /api/groups/:groupId/items
  *
  * Retrieve all queries that are members of a group.
- * Returns full query data (QueryDto[]) ordered by impressions descending.
+ * Returns full query data with pagination metadata.
+ * Ordered by impressions descending.
+ *
+ * Query Parameters:
+ * - limit?: number - default 100, range 1-1000
+ * - offset?: number - default 0, min 0
  *
  * Authentication is skipped for now per instructions; a placeholder userId is used.
  */
-export const GET: APIRoute = async ({ params, locals }) => {
+export const GET: APIRoute = async ({ params, locals, url }) => {
   const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
 
   // Validate path params
@@ -33,11 +38,29 @@ export const GET: APIRoute = async ({ params, locals }) => {
     });
   }
 
+  // Parse pagination parameters
+  const limitParam = url.searchParams.get("limit");
+  const offsetParam = url.searchParams.get("offset");
+  const limit = limitParam ? Math.max(1, Math.min(1000, parseInt(limitParam, 10))) : 100;
+  const offset = offsetParam ? Math.max(0, parseInt(offsetParam, 10)) : 0;
+
   // Fetch group items
   try {
-    const items: QueryDto[] = await getGroupItems(locals.supabase, userId, parsedParams.data.groupId);
+    const result = await getGroupItems(locals.supabase, userId, parsedParams.data.groupId, {
+      limit,
+      offset,
+    });
 
-    return new Response(JSON.stringify(items), {
+    const response: GetGroupItemsResponseDto = {
+      data: result.data,
+      meta: {
+        total: result.total,
+        limit,
+        offset,
+      },
+    };
+
+    return new Response(JSON.stringify(response), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

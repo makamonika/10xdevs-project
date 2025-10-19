@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import type { QueryDto, ErrorResponse } from "@/types";
+import type { QueryDto, ErrorResponse, GetGroupItemsResponseDto, PaginationMeta, PaginationParams } from "@/types";
+
+export interface UseGroupItemsParams extends PaginationParams {
+  // Additional params can be added here if needed in the future
+}
 
 /**
  * Custom hook to fetch all queries that are members of a group
  * @param groupId - The ID of the group
- * @returns Query data, loading state, error, and refetch function
+ * @param params - Optional pagination parameters
+ * @returns Query data, pagination metadata, loading state, error, and refetch function
  */
-export function useGroupItems(groupId: string) {
+export function useGroupItems(groupId: string, params?: UseGroupItemsParams) {
   const [data, setData] = useState<QueryDto[]>([]);
+  const [meta, setMeta] = useState<PaginationMeta>({ total: 0, limit: params?.limit || 50, offset: params?.offset || 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [refetchTrigger, setRefetchTrigger] = useState(0);
@@ -25,7 +31,14 @@ export function useGroupItems(groupId: string) {
       setError(null);
 
       try {
-        const response = await fetch(`/api/groups/${encodeURIComponent(groupId)}/items`);
+        const queryParams = new URLSearchParams();
+        if (params?.limit !== undefined) queryParams.append("limit", String(params.limit));
+        if (params?.offset !== undefined) queryParams.append("offset", String(params.offset));
+
+        const url = `/api/groups/${encodeURIComponent(groupId)}/items${
+          queryParams.toString() ? `?${queryParams.toString()}` : ""
+        }`;
+        const response = await fetch(url);
 
         if (!response.ok) {
           if (response.status === 404) {
@@ -43,10 +56,11 @@ export function useGroupItems(groupId: string) {
           throw new Error(`Failed to fetch group items: ${response.statusText}`);
         }
 
-        const result: QueryDto[] = await response.json();
+        const result: GetGroupItemsResponseDto = await response.json();
 
         if (!isCancelled) {
-          setData(result);
+          setData(result.data);
+          setMeta(result.meta);
         }
       } catch (err) {
         if (!isCancelled) {
@@ -68,9 +82,9 @@ export function useGroupItems(groupId: string) {
     return () => {
       isCancelled = true;
     };
-  }, [groupId, refetchTrigger]);
+  }, [groupId, params?.limit, params?.offset, refetchTrigger]);
 
-  return { data, isLoading, error, refetch };
+  return { data, meta, isLoading, error, refetch };
 }
 
 /**
@@ -88,12 +102,9 @@ export function useRemoveGroupItem() {
     setError(null);
 
     try {
-      const response = await fetch(
-        `/api/groups/${encodeURIComponent(groupId)}/items/${encodeURIComponent(queryId)}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`/api/groups/${encodeURIComponent(groupId)}/items/${encodeURIComponent(queryId)}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) {
         const errorData: ErrorResponse = await response.json();
@@ -119,4 +130,3 @@ export function useRemoveGroupItem() {
 
   return { removeItem, isLoading, error, removingQueryId };
 }
-

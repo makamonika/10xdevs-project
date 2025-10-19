@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { LiveRegion } from "@/components/queries/LiveRegion";
 import { GroupsToolbar } from "./GroupsToolbar";
 import { GroupsTable } from "./GroupsTable";
+import { Pagination } from "@/components/ui/pagination";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useGroups, type GroupSortField } from "@/hooks/useGroups";
 import { useGroupActions } from "@/hooks/useGroupActions";
@@ -21,8 +22,13 @@ export function GroupsPage() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<GroupSortField>("createdAt");
   const [order, setOrder] = useState<SortOrder>("desc");
-  const [limit] = useState(50);
-  const [offset] = useState(0);
+
+  // Pagination state
+  const [pageSize, setPageSize] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate offset from current page
+  const offset = (currentPage - 1) * pageSize;
 
   // Row edit state
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -33,6 +39,7 @@ export function GroupsPage() {
   // Fetch groups
   const {
     data: groups,
+    meta,
     isLoading,
     error,
     refetch,
@@ -40,18 +47,12 @@ export function GroupsPage() {
     search: debouncedSearch,
     sortBy,
     order,
-    limit,
+    limit: pageSize,
     offset,
   });
 
   // Group actions (CRUD operations)
-  const {
-    isRenamingId,
-    isDeletingId,
-    handleRename,
-    handleDelete,
-    handleView,
-  } = useGroupActions({
+  const { isRenamingId, isDeletingId, handleRename, handleDelete, handleView } = useGroupActions({
     refetch,
     setLiveMessage,
     setEditingId,
@@ -65,15 +66,27 @@ export function GroupsPage() {
   // Toolbar handlers - memoized to prevent unnecessary re-renders
   const handleSearchChange = useCallback((value: string) => {
     setSearch(value);
+    setCurrentPage(1); // Reset to first page on search
   }, []);
 
   const handleSortChange = useCallback(
     ({ sortBy: newSortBy, order: newOrder }: { sortBy: GroupSortField; order: SortOrder }) => {
       setSortBy(newSortBy);
       setOrder(newOrder);
+      setCurrentPage(1); // Reset to first page on sort change
     },
     []
   );
+
+  // Pagination handlers - now receive offset values from Pagination component
+  const handlePageChange = useCallback((newOffset: number) => {
+    setCurrentPage(Math.floor(newOffset / pageSize) + 1);
+  }, [pageSize]);
+
+  const handlePageSizeChange = useCallback((newLimit: number) => {
+    setPageSize(newLimit);
+    setCurrentPage(1); // Reset to first page when page size changes
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,35 +101,47 @@ export function GroupsPage() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Groups</h1>
 
-        <GroupsToolbar
-          search={search}
-          onSearchChange={handleSearchChange}
-          onGenerateAI={handleGenerateAI}
-          isGeneratingAI={isGeneratingAI}
-        />
+        <div className="space-y-4">
+          <GroupsToolbar
+            search={search}
+            onSearchChange={handleSearchChange}
+            onGenerateAI={handleGenerateAI}
+            isGeneratingAI={isGeneratingAI}
+          />
 
-        <GroupsTable
-          rows={groups}
-          isLoading={isLoading}
-          sortBy={sortBy}
-          order={order}
-          onSortChange={handleSortChange}
-          onRename={handleRename}
-          onDelete={handleDelete}
-          onView={handleView}
-          isRenamingId={isRenamingId}
-          isDeletingId={isDeletingId}
-        />
+          <GroupsTable
+            rows={groups}
+            isLoading={isLoading}
+            sortBy={sortBy}
+            order={order}
+            onSortChange={handleSortChange}
+            onRename={handleRename}
+            onDelete={handleDelete}
+            onView={handleView}
+            isRenamingId={isRenamingId}
+            isDeletingId={isDeletingId}
+          />
 
-        {error && (
-          <div className="mt-4 rounded-md bg-red-50 p-4 text-sm text-red-800" role="alert">
-            Error: {error.message}
-          </div>
-        )}
+          {/* Pagination */}
+          {!isLoading && groups.length > 0 && (
+            <Pagination
+              meta={meta}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              pageSizeOptions={[25, 50, 100, 200]}
+              isLoading={isLoading}
+            />
+          )}
+
+          {error && (
+            <div className="mt-4 rounded-md bg-red-50 p-4 text-sm text-red-800" role="alert">
+              Error: {error.message}
+            </div>
+          )}
+        </div>
       </div>
 
       <LiveRegion message={liveMessage} />
     </div>
   );
 }
-

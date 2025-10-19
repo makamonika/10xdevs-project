@@ -42,13 +42,10 @@ export function QueriesToolbar({
 
       {/* Right: Actions */}
       <div className="flex items-center gap-2">
-        {selectedCount > 0 && (
-          <span className="text-sm text-muted-foreground mr-2">{selectedCount} selected</span>
-        )}
+        {selectedCount > 0 && <span className="text-sm text-muted-foreground mr-2">{selectedCount} selected</span>}
         <GroupWithAIButton onGenerate={onGenerateAI} isGenerating={isGeneratingAI} />
         <NewGroupButton onClick={onOpenNewGroup} />
       </div>
     </div>
   );
 }
-
