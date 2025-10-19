@@ -15,9 +15,11 @@ type GroupsTableProps = {
   sortBy: GroupSortField;
   order: SortOrder;
   onSortChange: (params: { sortBy: GroupSortField; order: SortOrder }) => void;
+  // Action handlers
   onRename: (id: string, name: string) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   onView: (id: string) => void;
+  // Loading states
   isRenamingId: string | null;
   isDeletingId: string | null;
 };

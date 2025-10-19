@@ -103,8 +103,8 @@ export function QueriesPage() {
 
   const handleCreateGroup = useCallback(
     async (payload: CreateGroupRequestDto) => {
-      const queryTexts = Array.from(selected);
-      const success = await handleCreate(payload, queryTexts);
+      const queryIds = Array.from(selected);
+      const success = await handleCreate(payload, queryIds);
 
       if (success) {
         // Close modal and clear selection on success
@@ -115,9 +115,9 @@ export function QueriesPage() {
     [selected, handleCreate, clearSelection]
   );
 
-  // Get selected query texts for modal display
-  const selectedQueryTexts = useMemo(() => {
-    return queries.filter((q) => selected.has(q.id)).map((q) => q.queryText);
+  // Get selected queries for modal display (showing query texts)
+  const selectedQueries = useMemo(() => {
+    return queries.filter((q) => selected.has(q.id));
   }, [queries, selected]);
 
   return (
@@ -162,7 +162,7 @@ export function QueriesPage() {
           onCreate={handleCreateGroup}
           isSubmitting={isCreatingGroup}
           error={createGroupError}
-          queryTexts={selectedQueryTexts}
+          queries={selectedQueries}
         />
       </div>
 

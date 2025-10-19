@@ -3,16 +3,13 @@ import type { SortOrder } from "@/types";
 import type { ReactElement } from "react";
 
 /**
- * Formats a number with locale-specific formatting
+ * Formats a number without thousand separators
  * @param num - Number to format
  * @param decimals - Number of decimal places (default: 0)
  * @returns Formatted number string
  */
 export function formatNumber(num: number, decimals: number = 0): string {
-  return num.toLocaleString(undefined, {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
+  return num.toFixed(decimals);
 }
 
 /**

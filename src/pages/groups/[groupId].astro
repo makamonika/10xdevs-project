@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { GroupDetailsPage } from "@/components/groups/GroupDetailsPage";
+
+export const prerender = false;
+
+const { groupId } = Astro.params;
+---
+
+<Layout title="Group Details">
+  <GroupDetailsPage client:visible groupId={groupId} />
+</Layout>
+

@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
-import type { UpdateGroupRequestDto, CreateGroupRequestDto } from "@/types";
+import type { CreateGroupRequestDto, UpdateGroupRequestDto, ErrorResponse } from "@/types";
 
 export interface UseGroupActionsParams {
   refetch: () => void;
@@ -16,7 +16,7 @@ export interface UseGroupActionsResult {
   handleRename: (id: string, name: string) => Promise<void>;
   handleDelete: (id: string) => Promise<void>;
   handleView: (id: string) => void;
-  handleCreate: (payload: CreateGroupRequestDto, queryTexts: string[]) => Promise<boolean>;
+  handleCreate: (payload: CreateGroupRequestDto, queryIds: string[]) => Promise<boolean>;
   clearCreateError: () => void;
 }
 
@@ -70,7 +70,8 @@ export function useGroupActions({
             });
             return;
           }
-          throw new Error(`Failed to rename group: ${response.statusText}`);
+          const errorData: ErrorResponse = await response.json();
+          throw new Error(errorData.error.message || "Failed to rename group");
         }
 
         const successMsg = `Group renamed to "${trimmedName}"`;
@@ -112,7 +113,8 @@ export function useGroupActions({
             refetch();
             return;
           }
-          throw new Error(`Failed to delete group: ${response.statusText}`);
+          const errorData: ErrorResponse = await response.json();
+          throw new Error(errorData.error.message || "Failed to delete group");
         }
 
         const successMsg = "Group deleted successfully";
@@ -141,7 +143,7 @@ export function useGroupActions({
 
   // Create group handler
   const handleCreate = useCallback(
-    async (payload: CreateGroupRequestDto, queryTexts: string[]): Promise<boolean> => {
+    async (payload: CreateGroupRequestDto, queryIds: string[]): Promise<boolean> => {
       setIsCreatingGroup(true);
       setCreateGroupError(undefined);
 
@@ -153,7 +155,7 @@ export function useGroupActions({
           },
           body: JSON.stringify({
             ...payload,
-            queryTexts,
+            queryIds,
           }),
         });
 
@@ -180,7 +182,7 @@ export function useGroupActions({
         }
 
         const createdGroup = await response.json();
-        const successMsg = `Group "${createdGroup.name}" created with ${queryTexts.length} queries`;
+        const successMsg = `Group "${createdGroup.name}" created with ${queryIds.length} queries`;
         toast.success("Group created", {
           description: successMsg,
         });

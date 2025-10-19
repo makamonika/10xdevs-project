@@ -82,11 +82,10 @@ export async function acceptClusters(
     }
 
     // Add group items (queries to this group)
-    if (cluster.queryTexts.length > 0) {
-      const groupItems = cluster.queryTexts.map((queryText) => ({
+    if (cluster.queryIds.length > 0) {
+      const groupItems = cluster.queryIds.map((queryId) => ({
         group_id: groupData.id,
-        query_text: queryText,
-        user_id: userId,
+        query_id: queryId,
       }));
 
       const { error: itemsError } = await supabase.from("group_items").insert(groupItems);
@@ -105,7 +104,7 @@ export async function acceptClusters(
       aiGenerated: groupData.ai_generated,
       createdAt: groupData.created_at,
       updatedAt: groupData.updated_at,
-      queryCount: cluster.queryTexts.length,
+      queryCount: cluster.queryIds.length,
       metrics: {
         impressions: 0,
         clicks: 0,

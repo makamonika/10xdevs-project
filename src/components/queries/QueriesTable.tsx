@@ -1,5 +1,5 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useRef, memo } from "react";
+import { useRef, memo, type ReactNode } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableEmptyState } from "@/components/ui/table-empty-state";
 import { OpportunityBadge } from "./OpportunityBadge";
@@ -9,23 +9,33 @@ import type { QueryDto, QuerySortField, SortOrder } from "@/types";
 type QueriesTableProps = {
   rows: QueryDto[];
   isLoading: boolean;
-  selected: Set<string>;
-  onToggleRow: (id: string) => void;
+  emptyMessage?: string;
+  selected?: Set<string>;
   sortBy: QuerySortField;
   order: SortOrder;
+  onToggleRow?: (id: string) => void;
   onSortChange: (params: { sortBy: QuerySortField; order: SortOrder }) => void;
+  // Optional custom action column
+  renderActions?: (row: QueryDto) => ReactNode;
 };
 
 export const QueriesTable = memo(function QueriesTable({
   rows,
   isLoading,
+  emptyMessage = "No queries found",
   selected,
-  onToggleRow,
   sortBy,
   order,
+  onToggleRow,
   onSortChange,
+  renderActions,
 }: QueriesTableProps) {
   const parentRef = useRef<HTMLDivElement>(null);
+
+  // Determine if selection is enabled
+  const hasSelection = selected !== undefined && onToggleRow !== undefined;
+  // Determine if actions column is present
+  const hasActions = renderActions !== undefined;
 
   const virtualizer = useVirtualizer({
     count: rows.length,
@@ -45,16 +55,33 @@ export const QueriesTable = memo(function QueriesTable({
   }
 
   if (rows.length === 0) {
-    return <TableEmptyState message="No queries found" />;
+    return <TableEmptyState message={emptyMessage} />;
   }
+
+  // Build grid columns template based on enabled features
+  const gridCols = [
+    hasSelection && "40px",
+    "2fr",
+    "2fr",
+    "1fr",
+    "1fr",
+    "1fr",
+    "1fr",
+    "120px",
+    hasActions && "80px",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const gridColsClass = `grid gap-4`;
 
   return (
     <div className="mt-6 rounded-md border">
       {/* Table header */}
-      <div className="grid grid-cols-[40px_2fr_2fr_1fr_1fr_1fr_1fr_120px] gap-4 border-b bg-muted/50 px-4 py-3 text-sm font-medium">
-        <div className="flex items-center justify-center" role="columnheader">
-          {/* Selection column header */}
-        </div>
+      <div className={`${gridColsClass} border-b bg-muted/50 px-4 py-3 text-sm font-medium`} style={{ gridTemplateColumns: gridCols }}>
+        {hasSelection && (
+          <div className="flex items-center justify-center" role="columnheader">
+          </div>
+        )}
         <button
           type="button"
           onClick={() => handleColumnHeaderClick("impressions")}
@@ -107,6 +134,9 @@ export const QueriesTable = memo(function QueriesTable({
           {getSortIcon(sortBy === "avgPosition", order)}
         </button>
         <div role="columnheader">Opportunity</div>
+        {hasActions && (
+          <div className="text-center" role="columnheader">Actions</div>
+        )}
       </div>
 
       {/* Virtualized table body */}
@@ -126,30 +156,33 @@ export const QueriesTable = memo(function QueriesTable({
         >
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const row = rows[virtualRow.index];
-            const isSelected = selected.has(row.id);
+            const isSelected = hasSelection && selected!.has(row.id);
 
             return (
               <div
                 key={row.id}
                 data-index={virtualRow.index}
                 ref={virtualizer.measureElement}
-                className={`absolute top-0 left-0 w-full grid grid-cols-[40px_2fr_2fr_1fr_1fr_1fr_1fr_120px] gap-4 px-4 py-3 border-b text-sm hover:bg-muted/50 transition-all duration-200 ease-out ${
+                className={`absolute top-0 left-0 w-full ${gridColsClass} px-4 py-3 border-b text-sm hover:bg-muted/50 transition-all duration-200 ease-out ${
                   row.isOpportunity ? "bg-amber-50/50" : ""
                 } ${isSelected ? "bg-blue-50/50" : ""}`}
                 style={{
+                  gridTemplateColumns: gridCols,
                   transform: `translateY(${virtualRow.start}px)`,
                   willChange: "transform",
                 }}
                 role="row"
                 aria-selected={isSelected}
               >
-                <div className="flex items-center justify-center" role="gridcell">
-                  <Checkbox
-                    checked={isSelected}
-                    onCheckedChange={() => onToggleRow(row.id)}
-                    aria-label={`Select query: ${row.queryText}`}
-                  />
-                </div>
+                {hasSelection && (
+                  <div className="flex items-center justify-center" role="gridcell">
+                    <Checkbox
+                      checked={isSelected}
+                      onCheckedChange={() => onToggleRow!(row.id)}
+                      aria-label={`Select query: ${row.queryText}`}
+                    />
+                  </div>
+                )}
                 <div className="truncate" role="gridcell" title={row.queryText}>
                   {row.queryText}
                 </div>
@@ -171,6 +204,11 @@ export const QueriesTable = memo(function QueriesTable({
                 <div role="gridcell">
                   <OpportunityBadge isOpportunity={row.isOpportunity} />
                 </div>
+                {hasActions && (
+                  <div className="flex justify-center" role="gridcell">
+                    {renderActions(row)}
+                  </div>
+                )}
               </div>
             );
           })}

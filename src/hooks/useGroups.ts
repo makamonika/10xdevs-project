@@ -110,3 +110,74 @@ export function useGroups(params: UseGroupsParams): UseGroupsResult {
   return { data, isLoading, error, refetch };
 }
 
+/**
+ * Custom hook to fetch a single group by ID
+ * @param groupId - The ID of the group to fetch
+ * @returns Group data, loading state, error, and refetch function
+ */
+export function useGroup(groupId: string) {
+  const [data, setData] = useState<GroupWithMetricsDto | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
+
+  const refetch = () => {
+    setRefetchTrigger((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const fetchGroup = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/groups/${encodeURIComponent(groupId)}`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("Group not found");
+          }
+          if (response.status === 401 || response.status === 403) {
+            toast.error("Authentication required", {
+              description: "Redirecting to login...",
+            });
+            setTimeout(() => {
+              window.location.href = "/login?returnUrl=" + encodeURIComponent(window.location.pathname);
+            }, 1000);
+            return;
+          }
+          throw new Error(`Failed to fetch group: ${response.statusText}`);
+        }
+
+        const result: GroupWithMetricsDto = await response.json();
+
+        if (!isCancelled) {
+          setData(result);
+        }
+      } catch (err) {
+        if (!isCancelled) {
+          const error = err instanceof Error ? err : new Error("Unknown error");
+          setError(error);
+          toast.error("Failed to load group", {
+            description: error.message,
+          });
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchGroup();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [groupId, refetchTrigger]);
+
+  return { data, isLoading, error, refetch };
+}
+

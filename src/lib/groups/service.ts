@@ -2,6 +2,7 @@ import type { Tables } from "../../db/database.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../../db/database.types";
 import type { GroupWithMetricsDto } from "../../types";
+import { addGroupItems } from "../group-items/service";
 
 type GroupRow = Tables<"groups">;
 
@@ -66,7 +67,7 @@ export async function listGroups(
 export async function createGroup(
   supabase: SupabaseClient<Database>,
   userId: string,
-  payload: { name: string; aiGenerated?: boolean }
+  payload: { name: string; aiGenerated?: boolean; queryIds?: string[] }
 ): Promise<GroupWithMetricsDto> {
   const name = payload.name.trim();
   if (name.length === 0) {
@@ -86,6 +87,11 @@ export async function createGroup(
 
   if (error) {
     throw new Error(`Failed to create group: ${error.message}`);
+  }
+
+  // Add query items to the group if provided
+  if (payload.queryIds && payload.queryIds.length > 0) {
+    await addGroupItems(supabase, userId, data.id, payload.queryIds);
   }
 
   return mapGroupRowToDto(data);

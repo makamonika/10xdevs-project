@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import type { CreateGroupRequestDto } from "@/types";
+import type { CreateGroupRequestDto, QueryDto } from "@/types";
 
 type CreateGroupModalProps = {
   open: boolean;
@@ -19,7 +19,7 @@ type CreateGroupModalProps = {
   onCreate: (payload: CreateGroupRequestDto) => Promise<void>;
   isSubmitting: boolean;
   error?: string;
-  queryTexts: string[];
+  queries: QueryDto[];
 };
 
 export function CreateGroupModal({
@@ -28,7 +28,7 @@ export function CreateGroupModal({
   onCreate,
   isSubmitting,
   error,
-  queryTexts,
+  queries,
 }: CreateGroupModalProps) {
   const [name, setName] = useState("");
   const [validationError, setValidationError] = useState("");
@@ -73,7 +73,7 @@ export function CreateGroupModal({
         <DialogHeader>
           <DialogTitle>Create New Group</DialogTitle>
           <DialogDescription>
-            Create a manual group with {queryTexts.length} selected {queryTexts.length === 1 ? "query" : "queries"}
+            Create a manual group with {queries.length} selected {queries.length === 1 ? "query" : "queries"}
           </DialogDescription>
         </DialogHeader>
 
@@ -102,18 +102,18 @@ export function CreateGroupModal({
 
             {/* Selected Queries List */}
             <div className="grid gap-2">
-              <Label>Selected Queries ({queryTexts.length})</Label>
+              <Label>Selected Queries ({queries.length})</Label>
               <div className="max-h-[200px] overflow-y-auto rounded-md border p-3">
-                {queryTexts.length === 0 ? (
+                {queries.length === 0 ? (
                   <p className="text-sm text-muted-foreground">No queries selected</p>
                 ) : (
                   <ul className="space-y-2">
-                    {queryTexts.map((queryText, index) => (
-                      <li key={index} className="flex items-start gap-2">
+                    {queries.map((query, index) => (
+                      <li key={query.id} className="flex items-start gap-2">
                         <Badge variant="outline" className="mt-0.5 shrink-0">
                           {index + 1}
                         </Badge>
-                        <span className="text-sm break-words">{queryText}</span>
+                        <span className="text-sm break-words">{query.queryText}</span>
                       </li>
                     ))}
                   </ul>
