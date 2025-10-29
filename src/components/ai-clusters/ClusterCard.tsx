@@ -55,7 +55,7 @@ export function ClusterCard({
     return sortQueries(queries, sortBy, order);
   }, [queries, sortBy, order]);
 
-  const isValid = cluster.name.trim().length > 0 && cluster.name.trim().length <= 120 && cluster.queryIds.length > 0;
+  const isValid = cluster.name.trim().length > 0 && cluster.name.trim().length <= 120 && cluster.queries.length > 0;
 
   return (
     <div
@@ -159,7 +159,7 @@ export function ClusterCard({
           sortBy={sortBy}
           order={order}
           onSortChange={handleSortChange}
-          height="400px"
+          maxHeight="400px"
           renderActions={
             onRemoveQuery
               ? (row) => (

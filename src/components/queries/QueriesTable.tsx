@@ -6,7 +6,7 @@ import { OpportunityBadge } from "./OpportunityBadge";
 import { formatNumber, formatCTR, getSortIcon, getNextSortState } from "@/lib/table-utils.tsx";
 import type { QueryDto, QuerySortField, SortOrder } from "@/types";
 
-type QueriesTableProps = {
+interface QueriesTableProps {
   rows: QueryDto[];
   isLoading: boolean;
   emptyMessage?: string;
@@ -17,9 +17,11 @@ type QueriesTableProps = {
   onSortChange: (params: { sortBy: QuerySortField; order: SortOrder }) => void;
   // Optional custom action column
   renderActions?: (row: QueryDto) => ReactNode;
-  // Optional custom height (defaults to 600px)
+  // Optional custom height (defaults to 600px, or "auto" for content-based height)
   height?: string;
-};
+  // Optional max height when using auto height
+  maxHeight?: string;
+}
 
 export const QueriesTable = memo(function QueriesTable({
   rows,
@@ -31,7 +33,8 @@ export const QueriesTable = memo(function QueriesTable({
   onToggleRow,
   onSortChange,
   renderActions,
-  height = "600px",
+  height = "auto",
+  maxHeight,
 }: QueriesTableProps) {
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +42,8 @@ export const QueriesTable = memo(function QueriesTable({
   const hasSelection = selected !== undefined && onToggleRow !== undefined;
   // Determine if actions column is present
   const hasActions = renderActions !== undefined;
+  // Check if using auto height mode
+  const isAutoHeight = height === "auto";
 
   const virtualizer = useVirtualizer({
     count: rows.length,
@@ -139,33 +144,37 @@ export const QueriesTable = memo(function QueriesTable({
         ref={parentRef}
         id="queries-grid"
         className="overflow-auto"
-        style={{ height }}
+        style={isAutoHeight ? { maxHeight: maxHeight || "none", height: "auto" } : { height }}
         role="grid"
         aria-label="Query performance data"
       >
         <div
           style={{
-            height: `${virtualizer.getTotalSize()}px`,
+            height: isAutoHeight ? "auto" : `${virtualizer.getTotalSize()}px`,
             width: "100%",
-            position: "relative",
+            position: isAutoHeight ? "static" : "relative",
           }}
         >
-          {virtualizer.getVirtualItems().map((virtualRow) => {
-            const row = rows[virtualRow.index];
+          {(isAutoHeight ? rows : virtualizer.getVirtualItems().map((v) => rows[v.index])).map((row, index) => {
             const isSelected = hasSelection && selected!.has(row.id);
+            const virtualRow = isAutoHeight ? null : virtualizer.getVirtualItems()[index];
 
             return (
               <div
                 key={row.id}
-                data-index={virtualRow.index}
-                ref={virtualizer.measureElement}
-                className={`absolute top-0 left-0 w-full ${gridColsClass} px-4 py-3 border-b text-sm hover:bg-muted/50 transition-all duration-200 ease-out ${
+                data-index={isAutoHeight ? index : virtualRow!.index}
+                ref={isAutoHeight ? undefined : virtualizer.measureElement}
+                className={`${isAutoHeight ? "" : "absolute top-0 left-0"} w-full ${gridColsClass} px-4 py-3 border-b text-sm hover:bg-muted/50 transition-all duration-200 ease-out ${
                   row.isOpportunity ? "bg-amber-50/50" : ""
                 } ${isSelected ? "bg-blue-50/50" : ""}`}
                 style={{
                   gridTemplateColumns: gridCols,
-                  transform: `translateY(${virtualRow.start}px)`,
-                  willChange: "transform",
+                  ...(isAutoHeight
+                    ? {}
+                    : {
+                        transform: `translateY(${virtualRow!.start}px)`,
+                        willChange: "transform",
+                      }),
                 }}
                 role="row"
                 aria-selected={isSelected}

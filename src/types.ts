@@ -23,57 +23,57 @@ type CamelCaseKeys<T> = {
 /**
  * Pagination metadata for list responses
  */
-export type PaginationMeta = {
+export interface PaginationMeta {
   total: number;
   limit: number;
   offset: number;
-};
+}
 
 /**
  * Pagination parameters for list requests
  * Subset of PaginationMeta (without total, which is only known after query)
  */
-export type PaginationParams = {
+export interface PaginationParams {
   limit?: number;
   offset?: number;
-};
+}
 
 /**
  * Standard error response structure
  */
-export type ErrorResponse = {
+export interface ErrorResponse {
   error: {
     code: "validation_error" | "not_found" | "unauthorized" | "forbidden" | "rate_limited" | "conflict" | "internal";
     message: string;
     details?: Record<string, unknown>;
   };
-};
+}
 
 // ============================================================================
 // 1. Authentication DTOs
 // ============================================================================
 
-export type LoginRequestDto = {
+export interface LoginRequestDto {
   email: string;
   password: string;
-};
+}
 
-export type UserDto = {
+export interface UserDto {
   id: string;
   email: string;
   createdAt: string;
-};
+}
 
-export type LoginResponseDto = {
+export interface LoginResponseDto {
   accessToken: string;
   expiresIn: number;
   refreshToken: string;
   user: UserDto;
-};
+}
 
-export type RefreshTokenRequestDto = {
+export interface RefreshTokenRequestDto {
   refreshToken: string;
-};
+}
 
 export type RefreshTokenResponseDto = LoginResponseDto;
 
@@ -97,28 +97,28 @@ export type GetQueriesRequestDto = PaginationParams & {
 /**
  * Response for queries list with pagination metadata
  */
-export type GetQueriesResponseDto = {
+export interface GetQueriesResponseDto {
   data: QueryDto[];
   meta: PaginationMeta;
-};
+}
 
 // ============================================================================
 // 3. Import DTOs
 // ============================================================================
 
-export type CreateImportRequestDto = {
+export interface CreateImportRequestDto {
   sourceUrl: string;
-};
+}
 
-export type CreateImportResponseDto = {
+export interface CreateImportResponseDto {
   importId: string;
   status: ImportStatus;
-};
+}
 
 /**
  * Result of a synchronous import run (MVP)
  */
-export type ImportRunResultDto = {
+export interface ImportRunResultDto {
   status: "completed" | "failed";
   rowCount: number;
   durationMs: number;
@@ -126,7 +126,7 @@ export type ImportRunResultDto = {
   error?: {
     message: string;
   };
-};
+}
 
 // ============================================================================
 // 4. Group DTOs
@@ -142,29 +142,29 @@ export type GroupDto = CamelCaseKeys<Tables<"groups">>;
  * Command model for creating a new group
  * Derived from database insert type
  */
-export type CreateGroupRequestDto = {
+export interface CreateGroupRequestDto {
   name: string;
   aiGenerated?: boolean;
-};
+}
 
 /**
  * Command model for updating a group
  * Derived from database update type, all fields optional
  */
-export type UpdateGroupRequestDto = {
+export interface UpdateGroupRequestDto {
   name?: string;
   aiGenerated?: boolean;
-};
+}
 
 /**
  * Aggregated metrics for a group
  */
-export type GroupMetricsDto = {
+export interface GroupMetricsDto {
   impressions: number;
   clicks: number;
   ctr: number;
   avgPosition: number;
-};
+}
 
 /**
  * Group with computed metrics and query count
@@ -174,10 +174,10 @@ export type GroupWithMetricsDto = GroupDto & {
   metrics: GroupMetricsDto;
 };
 
-export type GetGroupsResponseDto = {
+export interface GetGroupsResponseDto {
   data: GroupWithMetricsDto[];
   meta: PaginationMeta;
-};
+}
 
 export type GetGroupByIdResponseDto = GroupWithMetricsDto;
 
@@ -194,17 +194,17 @@ export type GroupItemDto = CamelCaseKeys<Tables<"group_items">>;
 /**
  * Command model for adding queries to a group
  */
-export type AddGroupItemsRequestDto = {
+export interface AddGroupItemsRequestDto {
   queryIds: string[];
-};
+}
 
 /**
  * Response for group items list with pagination metadata
  */
-export type GetGroupItemsResponseDto = {
+export interface GetGroupItemsResponseDto {
   data: QueryDto[];
   meta: PaginationMeta;
-};
+}
 
 // ============================================================================
 // 6. AI Cluster DTOs
@@ -215,37 +215,37 @@ export type GetGroupItemsResponseDto = {
  * These are only returned from the generate endpoint and live in client memory.
  * Users can edit them client-side before accepting.
  */
-export type AiClusterSuggestionDto = {
+export interface AiClusterSuggestionDto {
   name: string;
-  queryIds: string[];
+  queries: QueryDto[];
   queryCount: number;
   metrics: GroupMetricsDto;
-};
+}
 
 /**
  * Single cluster to accept (subset of the original suggestion)
  * The client can edit name and filter queryIds before accepting
  */
-export type AcceptClusterDto = {
+export interface AcceptClusterDto {
   name: string;
   queryIds: string[];
-};
+}
 
 /**
  * Request to accept one or more clusters from a suggestion
  * The client sends potentially-edited cluster data
  */
-export type AcceptClustersRequestDto = {
+export interface AcceptClustersRequestDto {
   clusters: AcceptClusterDto[];
-};
+}
 
 /**
  * Response after accepting clusters
  * Returns the newly created groups (now persisted in database)
  */
-export type AcceptClustersResponseDto = {
+export interface AcceptClustersResponseDto {
   groups: GroupWithMetricsDto[];
-};
+}
 
 // ============================================================================
 // 7. User Action DTOs
@@ -264,10 +264,10 @@ export type GetUserActionsRequestDto = PaginationParams & {
   endDate?: string;
 };
 
-export type GetUserActionsResponseDto = {
+export interface GetUserActionsResponseDto {
   data: UserActionDto[];
   meta: PaginationMeta;
-};
+}
 
 /**
  * Command model for creating a user action

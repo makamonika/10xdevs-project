@@ -6,14 +6,13 @@ import type { QueryDto } from "@/types";
 export interface ClustersListProps {
   clusters: AIClusterViewModel[];
   selectedIds: Set<string>;
-  queriesById: Map<string, QueryDto>;
   onToggleSelect: (id: string) => void;
   onSelectAll: () => void;
   onClearSelection: () => void;
   onOpenEdit: (id: string) => void;
   onDiscard: (id: string) => void;
   onRename: (id: string, name: string) => void;
-  onRemoveQuery: (clusterId: string, queryId: string) => void;
+  onUpdateQueries: (clusterId: string, queries: QueryDto[]) => void;
 }
 
 /**
@@ -22,14 +21,13 @@ export interface ClustersListProps {
 export function ClustersList({
   clusters,
   selectedIds,
-  queriesById,
   onToggleSelect,
   onSelectAll,
   onClearSelection,
   onOpenEdit,
   onDiscard,
   onRename,
-  onRemoveQuery,
+  onUpdateQueries,
 }: ClustersListProps) {
   const allSelected = clusters.length > 0 && selectedIds.size === clusters.length;
   const someSelected = selectedIds.size > 0 && selectedIds.size < clusters.length;
@@ -60,26 +58,22 @@ export function ClustersList({
 
       {/* Clusters Grid */}
       <div className="grid gap-6">
-        {clusters.map((cluster) => {
-          // Resolve queries for this cluster
-          const queries = cluster.queryIds
-            .map((qid) => queriesById.get(qid))
-            .filter((q): q is QueryDto => q !== undefined);
-
-          return (
-            <ClusterCard
-              key={cluster.id}
-              cluster={cluster}
-              isSelected={selectedIds.has(cluster.id)}
-              queries={queries}
-              onToggleSelect={() => onToggleSelect(cluster.id)}
-              onOpenEdit={() => onOpenEdit(cluster.id)}
-              onDiscard={() => onDiscard(cluster.id)}
-              onRename={(name) => onRename(cluster.id, name)}
-              onRemoveQuery={(queryId) => onRemoveQuery(cluster.id, queryId)}
-            />
-          );
-        })}
+        {clusters.map((cluster) => (
+          <ClusterCard
+            key={cluster.id}
+            cluster={cluster}
+            isSelected={selectedIds.has(cluster.id)}
+            queries={cluster.queries}
+            onToggleSelect={() => onToggleSelect(cluster.id)}
+            onOpenEdit={() => onOpenEdit(cluster.id)}
+            onDiscard={() => onDiscard(cluster.id)}
+            onRename={(name) => onRename(cluster.id, name)}
+            onRemoveQuery={(queryId) => {
+              const updatedQueries = cluster.queries.filter((q) => q.id !== queryId);
+              onUpdateQueries(cluster.id, updatedQueries);
+            }}
+          />
+        ))}
       </div>
     </div>
   );

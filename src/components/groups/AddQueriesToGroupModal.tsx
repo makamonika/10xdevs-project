@@ -17,14 +17,14 @@ import { useSelection } from "@/hooks/useSelection";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import type { QuerySortField, SortOrder } from "@/types";
 
-type AddQueriesToGroupModalProps = {
+interface AddQueriesToGroupModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAdd: (queryIds: string[]) => Promise<void>;
   isSubmitting: boolean;
   existingQueryIds: Set<string>;
   groupName: string;
-};
+}
 
 /**
  * Modal for searching and adding queries to an existing group
@@ -144,7 +144,7 @@ export function AddQueriesToGroupModal({
               sortBy={sortBy}
               order={order}
               onSortChange={handleSortChange}
-              height="400px"
+              maxHeight="400px"
             />
           </div>
 

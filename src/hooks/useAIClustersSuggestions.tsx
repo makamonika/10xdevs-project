@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, useCallback, type ReactNode } from "react";
 import { toast } from "sonner";
-import type { AiClusterSuggestionDto, GroupMetricsDto, AcceptClustersRequestDto } from "@/types";
+import type { AiClusterSuggestionDto, GroupMetricsDto, AcceptClustersRequestDto, QueryDto } from "@/types";
 
 // ============================================================================
 // Types
@@ -12,7 +12,7 @@ import type { AiClusterSuggestionDto, GroupMetricsDto, AcceptClustersRequestDto 
 export interface AIClusterViewModel {
   id: string; // Generated client-side stable ID
   name: string;
-  queryIds: string[];
+  queries: QueryDto[];
   queryCount: number;
   metrics: GroupMetricsDto;
   isDirty?: boolean; // Tracks if user has edited this cluster
@@ -33,8 +33,7 @@ export interface AIClustersContextValue {
   selectAll: () => void;
   clearSelection: () => void;
   rename: (id: string, name: string) => void;
-  removeQueryFromCluster: (id: string, queryId: string) => void;
-  addQueriesToCluster: (id: string, newIds: string[]) => void;
+  updateClusterQueries: (id: string, queries: QueryDto[]) => void;
   discard: (id: string) => void;
   acceptSelected: () => Promise<void>;
 }
@@ -60,8 +59,7 @@ type Action =
   | { type: "SELECT_ALL" }
   | { type: "CLEAR_SELECTION" }
   | { type: "RENAME_CLUSTER"; payload: { id: string; name: string } }
-  | { type: "REMOVE_QUERY_FROM_CLUSTER"; payload: { id: string; queryId: string } }
-  | { type: "ADD_QUERIES_TO_CLUSTER"; payload: { id: string; queryIds: string[] } }
+  | { type: "UPDATE_CLUSTER_QUERIES"; payload: { id: string; queries: QueryDto[] } }
   | { type: "DISCARD_CLUSTER"; payload: string };
 
 const initialState: State = {
@@ -84,6 +82,7 @@ function reducer(state: State, action: Action): State {
       return { ...state, liveMessage: action.payload };
 
     case "SET_CLUSTERS":
+      console.log("Reducer SET_CLUSTERS:", action.payload.length, "clusters");
       return { ...state, clusters: action.payload, selectedIds: new Set() };
 
     case "TOGGLE_SELECT": {
@@ -110,36 +109,15 @@ function reducer(state: State, action: Action): State {
         ),
       };
 
-    case "REMOVE_QUERY_FROM_CLUSTER": {
+    case "UPDATE_CLUSTER_QUERIES": {
       return {
         ...state,
         clusters: state.clusters.map((c) => {
           if (c.id === action.payload.id) {
-            const newQueryIds = c.queryIds.filter((qid) => qid !== action.payload.queryId);
-            // Recalculate metrics would require query data; for now just update count
             return {
               ...c,
-              queryIds: newQueryIds,
-              queryCount: newQueryIds.length,
-              isDirty: true,
-            };
-          }
-          return c;
-        }),
-      };
-    }
-
-    case "ADD_QUERIES_TO_CLUSTER": {
-      return {
-        ...state,
-        clusters: state.clusters.map((c) => {
-          if (c.id === action.payload.id) {
-            const existingSet = new Set(c.queryIds);
-            const newQueryIds = [...c.queryIds, ...action.payload.queryIds.filter((qid) => !existingSet.has(qid))];
-            return {
-              ...c,
-              queryIds: newQueryIds,
-              queryCount: newQueryIds.length,
+              queries: action.payload.queries,
+              queryCount: action.payload.queries.length,
               isDirty: true,
             };
           }
@@ -178,8 +156,9 @@ interface AIClustersProviderProps {
  * Generates a stable client-side ID for a cluster based on its content
  */
 function generateClusterId(suggestion: AiClusterSuggestionDto): string {
-  // Simple stable hash: combine name and sorted queryIds
-  const content = `${suggestion.name}:${[...suggestion.queryIds].sort().join(",")}`;
+  // Simple stable hash: combine name and sorted query IDs
+  const queryIds = suggestion.queries.map((q) => q.id).sort();
+  const content = `${suggestion.name}:${queryIds.join(",")}`;
   // Use a simple hash for demo; in production consider crypto.randomUUID() or better hashing
   let hash = 0;
   for (let i = 0; i < content.length; i++) {
@@ -197,7 +176,7 @@ function toViewModel(suggestion: AiClusterSuggestionDto): AIClusterViewModel {
   return {
     id: generateClusterId(suggestion),
     name: suggestion.name,
-    queryIds: suggestion.queryIds,
+    queries: suggestion.queries,
     queryCount: suggestion.queryCount,
     metrics: suggestion.metrics,
     isDirty: false,
@@ -214,7 +193,13 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
     try {
       const response = await fetch("/api/ai-clusters");
 
+      console.log("AI clusters response status:", response.status);
+
       if (!response.ok) {
+        // Try to get error message from response body
+        const errorText = await response.text();
+        console.error("AI clusters error response:", errorText);
+
         if (response.status === 401) {
           toast.error("Authentication required", {
             description: "Redirecting to login...",
@@ -233,13 +218,16 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
           return;
         }
 
-        throw new Error(`Failed to generate clusters: ${response.statusText}`);
+        throw new Error(`Failed to generate clusters: ${response.statusText} - ${errorText}`);
       }
 
       const suggestions: AiClusterSuggestionDto[] = await response.json();
+      console.log("Received suggestions:", suggestions.length, suggestions);
       const viewModels = suggestions.map(toViewModel);
+      console.log("View models created:", viewModels);
 
       dispatch({ type: "SET_CLUSTERS", payload: viewModels });
+      console.log("Dispatched SET_CLUSTERS");
 
       const successMsg = `Generated ${viewModels.length} cluster suggestion${viewModels.length !== 1 ? "s" : ""}`;
       toast.success("AI Clusters Generated", {
@@ -247,6 +235,7 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
       });
       dispatch({ type: "SET_LIVE_MESSAGE", payload: successMsg });
     } catch (err) {
+      console.error("Generate AI clusters error:", err);
       const message = err instanceof Error ? err.message : "Unknown error";
       toast.error("Failed to generate AI clusters", {
         description: message,
@@ -277,12 +266,8 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
     dispatch({ type: "RENAME_CLUSTER", payload: { id, name } });
   }, []);
 
-  const removeQueryFromCluster = useCallback((id: string, queryId: string) => {
-    dispatch({ type: "REMOVE_QUERY_FROM_CLUSTER", payload: { id, queryId } });
-  }, []);
-
-  const addQueriesToCluster = useCallback((id: string, newIds: string[]) => {
-    dispatch({ type: "ADD_QUERIES_TO_CLUSTER", payload: { id, queryIds: newIds } });
+  const updateClusterQueries = useCallback((id: string, queries: QueryDto[]) => {
+    dispatch({ type: "UPDATE_CLUSTER_QUERIES", payload: { id, queries } });
   }, []);
 
   const discard = useCallback((id: string) => {
@@ -294,7 +279,7 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
 
     // Validation: ensure all selected clusters are valid
     const invalidClusters = selectedClusters.filter(
-      (c) => !c.name.trim() || c.name.trim().length > 120 || c.queryIds.length === 0
+      (c) => !c.name.trim() || c.name.trim().length > 120 || c.queries.length === 0
     );
 
     if (invalidClusters.length > 0) {
@@ -318,7 +303,7 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
       const requestBody: AcceptClustersRequestDto = {
         clusters: selectedClusters.map((c) => ({
           name: c.name.trim(),
-          queryIds: c.queryIds,
+          queryIds: c.queries.map((q) => q.id),
         })),
       };
 
@@ -386,8 +371,7 @@ export function AIClustersProvider({ children }: AIClustersProviderProps) {
     selectAll,
     clearSelection,
     rename,
-    removeQueryFromCluster,
-    addQueriesToCluster,
+    updateClusterQueries,
     discard,
     acceptSelected,
   };

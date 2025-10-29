@@ -26,6 +26,10 @@ type QueriesTableWithControlsProps = {
   onOpenNewGroup: () => void;
   onGenerateAI: () => void;
   isGeneratingAI: boolean;
+
+  // Table display options
+  height?: string;
+  maxHeight?: string;
 };
 
 /**
@@ -47,6 +51,8 @@ export function QueriesTableWithControls({
   onOpenNewGroup,
   onGenerateAI,
   isGeneratingAI,
+  height,
+  maxHeight,
 }: QueriesTableWithControlsProps) {
   // Show controls only when there are queries or actively searching/filtering
   const showControls = rows.length > 0 || search || isOpportunity;
@@ -76,6 +82,8 @@ export function QueriesTableWithControls({
         sortBy={sortBy}
         order={order}
         onSortChange={onSortChange}
+        height={height}
+        maxHeight={maxHeight}
       />
     </div>
   );

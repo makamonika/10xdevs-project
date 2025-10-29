@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { AIClustersProvider, useAIClustersSuggestions } from "@/hooks/useAIClustersSuggestions";
-import { useQueries } from "@/hooks/useQueries";
 import { ClustersToolbar } from "./ClustersToolbar";
 import { ClustersList } from "./ClustersList";
 import { EditClusterModal } from "./EditClusterModal";
@@ -25,23 +24,10 @@ function ClustersPageContent() {
     selectAll,
     clearSelection,
     rename,
-    removeQueryFromCluster,
-    addQueriesToCluster,
+    updateClusterQueries,
     discard,
     acceptSelected,
   } = useAIClustersSuggestions();
-
-  // Fetch all queries to resolve cluster members
-  const { data: allQueries, isLoading: isLoadingQueries } = useQueries({
-    limit: 10000, // Fetch all queries for resolution
-  });
-
-  // Create a map for quick query lookup
-  const queriesById = useMemo(() => {
-    const map = new Map<string, QueryDto>();
-    allQueries.forEach((q) => map.set(q.id, q));
-    return map;
-  }, [allQueries]);
 
   // Modal states
   const [editingClusterId, setEditingClusterId] = useState<string | null>(null);
@@ -60,7 +46,7 @@ function ClustersPageContent() {
 
     const selectedClusters = clusters.filter((c) => selectedIds.has(c.id));
     return selectedClusters.every(
-      (c) => c.name.trim().length > 0 && c.name.trim().length <= 120 && c.queryIds.length > 0
+      (c) => c.name.trim().length > 0 && c.name.trim().length <= 120 && c.queries.length > 0
     );
   }, [clusters, selectedIds]);
 
@@ -72,28 +58,10 @@ function ClustersPageContent() {
     setEditingClusterId(null);
   };
 
-  const handleSaveEdit = (changes: { name: string; queryIds: string[] }) => {
+  const handleSaveEdit = (changes: { name: string; queries: QueryDto[] }) => {
     if (editingClusterId) {
       rename(editingClusterId, changes.name);
-      // Update query IDs by calculating diff
-      const cluster = clusters.find((c) => c.id === editingClusterId);
-      if (cluster) {
-        const currentIds = new Set(cluster.queryIds);
-        const newIds = new Set(changes.queryIds);
-
-        // Remove queries that are no longer in the list
-        cluster.queryIds.forEach((qid) => {
-          if (!newIds.has(qid)) {
-            removeQueryFromCluster(editingClusterId, qid);
-          }
-        });
-
-        // Add new queries
-        const toAdd = changes.queryIds.filter((qid) => !currentIds.has(qid));
-        if (toAdd.length > 0) {
-          addQueriesToCluster(editingClusterId, toAdd);
-        }
-      }
+      updateClusterQueries(editingClusterId, changes.queries);
     }
     setEditingClusterId(null);
   };
@@ -111,19 +79,6 @@ function ClustersPageContent() {
 
   const editingCluster = editingClusterId ? clusters.find((c) => c.id === editingClusterId) || null : null;
   const discardingCluster = discardingClusterId ? clusters.find((c) => c.id === discardingClusterId) || null : null;
-
-  // Loading state
-  if (isLoadingQueries && clusters.length === 0) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="text-muted-foreground">Loading queries...</p>
-        </div>
-        <LiveRegion message={liveMessage} />
-      </div>
-    );
-  }
 
   // Generating state (first time)
   if (isGenerating && clusters.length === 0) {
@@ -193,14 +148,13 @@ function ClustersPageContent() {
       <ClustersList
         clusters={clusters}
         selectedIds={selectedIds}
-        queriesById={queriesById}
         onToggleSelect={toggleSelect}
         onSelectAll={selectAll}
         onClearSelection={clearSelection}
         onOpenEdit={handleOpenEdit}
         onDiscard={handleOpenDiscard}
         onRename={rename}
-        onRemoveQuery={removeQueryFromCluster}
+        onUpdateQueries={updateClusterQueries}
       />
 
       {/* Edit Modal */}
