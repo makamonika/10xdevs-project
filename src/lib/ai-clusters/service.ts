@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../../db/database.types";
-import type { AiClusterSuggestionDto, GroupWithMetricsDto, AcceptClusterDto } from "../../types";
+import type { AiClusterSuggestionDto, GroupWithMetricsDto, AcceptClusterDto, QueryDto } from "../../types";
 import { QUERIES_COLUMNS } from "../db/projections";
 import { calculateGroupMetricsFromQueries } from "../metrics";
 import { mapQueryRowToDto } from "../mappers";
@@ -205,7 +205,7 @@ export async function generateClusters(
       // per cluster
       const clusterQueries = cluster.queryIds
         .map((id) => queryMap.get(id))
-        .filter((q): q is NonNullable<typeof q> => q !== undefined);
+        .filter((q): q is QueryDto => q !== undefined);
 
       if (clusterQueries.length === 0) {
         return null;
@@ -221,7 +221,7 @@ export async function generateClusters(
         metrics,
       };
     })
-    .filter((cluster): cluster is NonNullable<typeof cluster> => cluster !== null);
+    .filter((cluster): cluster is AiClusterSuggestionDto => cluster !== null);
 
   // Step 4: Log user action (optional - don't fail if this errors)
   try {

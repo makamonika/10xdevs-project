@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "../../db/database.types";
+import type { Database, Tables } from "../../db/database.types";
 import type { GroupMetricsDto } from "../../types";
 import { QUERIES_COLUMNS } from "../db/projections";
 import { mapQueryRowToDto } from "../mappers";
@@ -33,8 +33,8 @@ export async function recomputeAndPersistGroupMetrics(
 
   const queries = (data ?? [])
     .map((row) => (row as any).queries)
-    .filter((q): q is NonNullable<typeof q> => q !== null && q !== undefined)
-    .map((q) => mapQueryRowToDto(q as any));
+    .filter((q): q is Tables<"queries"> => q != null)
+    .map((q) => mapQueryRowToDto(q));
 
   const { metrics, queryCount } = calculateGroupMetricsFromQueries(queries);
 
