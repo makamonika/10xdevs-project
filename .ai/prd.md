@@ -149,6 +149,18 @@ The following features are explicitly excluded from the MVP:
 
 ### 5.1 Authentication
 
+#### US-000: Secure Access and Authentication
+**As a user**, I want to be able to register and log in to the system in a way that ensures the security of my data.
+**Acceptance Criteria:**
+- Login and registration are handled on dedicated pages.  
+- Login requires providing an email address and password.  
+- Registration requires providing an email address, password, and password confirmation.  
+- The user **CANNOT** use the application without logging in.  
+- The user can log in to the system via a button in the top-right corner.  
+- The user can log out of the system via a button in the top-right corner of the main `@Layout.astro`.  
+- No external login services are used (e.g., Google, GitHub).  
+- Password recovery must be possible.
+
 #### US-001: User Login
 **As an** SEO specialist,  
 **I want to** log into the SEO Query Insights Dashboard,  
