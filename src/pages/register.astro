@@ -3,6 +3,21 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { createSupabaseServerInstance } from "@/db/supabase.client";
 
+/**
+ * User Registration Page
+ *
+ * Email Confirmation Behavior:
+ * - If email confirmation is DISABLED (auth.email.enable_confirmations = false):
+ *   User is immediately logged in after registration and redirected to the dashboard.
+ *
+ * - If email confirmation is ENABLED (auth.email.enable_confirmations = true):
+ *   User receives a confirmation email with a link. They must click the link to verify
+ *   their account before they can sign in. The form will display a success message
+ *   instructing them to check their email.
+ *
+ * Current configuration: Email confirmation is DISABLED (see supabase/config.toml line 176)
+ */
+
 // Check if user is already authenticated
 // Since /register is a public route, we need to manually check the session
 const supabase = createSupabaseServerInstance({

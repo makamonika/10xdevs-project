@@ -91,6 +91,7 @@ export interface LoginResponseDto {
  */
 export interface RegisterResponseDto {
   user: UserDto;
+  requiresEmailConfirmation: boolean;
 }
 
 /**

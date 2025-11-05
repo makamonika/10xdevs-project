@@ -13,6 +13,7 @@ export function RegisterForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{
     email?: string;
     password?: string;
@@ -76,6 +77,7 @@ export function RegisterForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
 
     // Validate all fields
     const emailError = validateEmail(email);
@@ -114,8 +116,20 @@ export function RegisterForm() {
         throw new Error(data.error?.message || "Registration failed. Please try again.");
       }
 
-      // Success - reload page to trigger middleware redirect
-      window.location.href = "/";
+      const data = await response.json();
+
+      // Check if email confirmation is required
+      if (data.requiresEmailConfirmation) {
+        setSuccess("Account created successfully! Please check your email to confirm your account before signing in.");
+        setIsLoading(false);
+        // Clear form
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      } else {
+        // Success - reload page to trigger middleware redirect
+        window.location.href = "/";
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try again.");
       setIsLoading(false);
@@ -129,6 +143,12 @@ export function RegisterForm() {
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="border-green-600/50 bg-green-50 dark:bg-green-950/20">
+          <AlertDescription className="text-green-800 dark:text-green-200">{success}</AlertDescription>
         </Alert>
       )}
 
