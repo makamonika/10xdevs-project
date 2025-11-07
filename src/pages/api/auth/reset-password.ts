@@ -40,35 +40,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       cookies,
     });
 
-    // Verify the recovery token using verifyOtp
-    // This will create a session if the token is valid
-    const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
-      token_hash: token,
-      type: "recovery",
-    });
+    // Exchange the token for a session using exchangeCodeForSession
+    // The 'code' parameter from the email is an auth code that needs to be exchanged
+    const { data: sessionData, error: exchangeError } = await supabase.auth.exchangeCodeForSession(token);
 
-    if (verifyError || !verifyData.user) {
+    if (exchangeError || !sessionData.session) {
       // Token is invalid or expired
-      const errorResponse: ErrorResponse = {
-        error: {
-          code: "unauthorized",
-          message: "This reset link is invalid or expired. Please request a new one.",
-        },
-      };
-      return new Response(JSON.stringify(errorResponse), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    // Verify we have a valid user session after token verification
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-      // Session not properly established after token verification
+      console.error("Token exchange error:", exchangeError);
       const errorResponse: ErrorResponse = {
         error: {
           code: "unauthorized",

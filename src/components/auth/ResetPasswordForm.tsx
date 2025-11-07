@@ -5,9 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff } from "lucide-react";
 
-type ResetPasswordFormProps = {
+interface ResetPasswordFormProps {
   token: string;
-};
+}
 
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [password, setPassword] = useState("");
