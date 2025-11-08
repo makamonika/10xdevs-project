@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueriesTable } from "@/components/queries/QueriesTable";
-import type { QueryDto, QuerySortField, SortOrder } from "@/types";
+import type { QueryDto, SortOrder } from "@/types";
 
 // Mock dependencies
 vi.mock("@tanstack/react-virtual", () => ({
@@ -15,13 +15,7 @@ vi.mock("@tanstack/react-virtual", () => ({
 
 vi.mock("@/components/ui/checkbox", () => ({
   Checkbox: ({ checked, onCheckedChange, "aria-label": ariaLabel }: any) => (
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={onCheckedChange}
-      aria-label={ariaLabel}
-      data-testid="checkbox"
-    />
+    <input type="checkbox" checked={checked} onChange={onCheckedChange} aria-label={ariaLabel} data-testid="checkbox" />
   ),
 }));
 
@@ -77,13 +71,7 @@ describe("QueriesTable", () => {
   describe("Loading and Empty States", () => {
     it("should display loading state when isLoading is true", () => {
       render(
-        <QueriesTable
-          rows={[]}
-          isLoading={true}
-          sortBy="impressions"
-          order="desc"
-          onSortChange={mockOnSortChange}
-        />
+        <QueriesTable rows={[]} isLoading={true} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
       );
 
       expect(screen.getByTestId("empty-state")).toHaveTextContent("Loading queries...");
@@ -91,13 +79,7 @@ describe("QueriesTable", () => {
 
     it("should display default empty message when no rows and not loading", () => {
       render(
-        <QueriesTable
-          rows={[]}
-          isLoading={false}
-          sortBy="impressions"
-          order="desc"
-          onSortChange={mockOnSortChange}
-        />
+        <QueriesTable rows={[]} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
       );
 
       expect(screen.getByTestId("empty-state")).toHaveTextContent("No queries found");
@@ -134,7 +116,13 @@ describe("QueriesTable", () => {
       ];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.getByText("seo optimization")).toBeInTheDocument();
@@ -153,20 +141,33 @@ describe("QueriesTable", () => {
       ];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.getByText("query one")).toBeInTheDocument();
       expect(screen.getByText("query two")).toBeInTheDocument();
       expect(screen.getByText("query three")).toBeInTheDocument();
     });
+  });
 
   describe("Opportunity Badge", () => {
     it("should display opportunity badge for opportunity queries", () => {
       const queries = [createMockQuery({ isOpportunity: true })];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.getByTestId("opportunity-badge")).toBeInTheDocument();
@@ -176,7 +177,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery({ isOpportunity: false })];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.queryByTestId("opportunity-badge")).not.toBeInTheDocument();
@@ -186,7 +193,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery({ id: "1", isOpportunity: true })];
 
       const { container } = render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       const row = container.querySelector('[role="row"]');
@@ -219,7 +232,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery({ id: "1" })];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.queryByTestId("checkbox")).not.toBeInTheDocument();
@@ -299,7 +318,9 @@ describe("QueriesTable", () => {
         <QueriesTable rows={queries} isLoading={false} sortBy="clicks" order="desc" onSortChange={mockOnSortChange} />
       );
 
-      const impressionsHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("Impressions"));
+      const impressionsHeader = screen
+        .getAllByRole("columnheader")
+        .find((el) => el.textContent?.includes("Impressions"));
       await user.click(impressionsHeader!);
 
       expect(mockOnSortChange).toHaveBeenCalledWith({
@@ -313,7 +334,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       const clicksHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("Clicks"));
@@ -330,7 +357,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       const ctrHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("CTR"));
@@ -347,7 +380,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       const positionHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("Avg Position"));
@@ -364,10 +403,18 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
-      const impressionsHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("Impressions"));
+      const impressionsHeader = screen
+        .getAllByRole("columnheader")
+        .find((el) => el.textContent?.includes("Impressions"));
       await user.click(impressionsHeader!);
 
       expect(mockOnSortChange).toHaveBeenCalledWith({
@@ -380,10 +427,18 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="asc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="asc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
-      const impressionsHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("Impressions"));
+      const impressionsHeader = screen
+        .getAllByRole("columnheader")
+        .find((el) => el.textContent?.includes("Impressions"));
       expect(impressionsHeader).toHaveAttribute("aria-sort", "ascending");
     });
 
@@ -391,7 +446,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       const clicksHeader = screen.getAllByRole("columnheader").find((el) => el.textContent?.includes("Clicks"));
@@ -423,7 +484,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.queryByText("Actions")).not.toBeInTheDocument();
@@ -455,7 +522,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       expect(screen.getByRole("grid")).toBeInTheDocument();
@@ -468,7 +541,13 @@ describe("QueriesTable", () => {
       const queries = [createMockQuery()];
 
       render(
-        <QueriesTable rows={queries} isLoading={false} sortBy="impressions" order="desc" onSortChange={mockOnSortChange} />
+        <QueriesTable
+          rows={queries}
+          isLoading={false}
+          sortBy="impressions"
+          order="desc"
+          onSortChange={mockOnSortChange}
+        />
       );
 
       const grid = screen.getByRole("grid");
@@ -544,4 +623,3 @@ describe("QueriesTable", () => {
     });
   });
 });
-
