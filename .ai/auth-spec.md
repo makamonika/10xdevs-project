@@ -794,17 +794,6 @@ declare global {
 
 **Affected Files**: All API routes in `src/pages/api/` (except `auth/`)
 
-**Required Changes**:
-
-**Current Pattern** (e.g., `src/pages/api/groups/index.ts`):
-```typescript
-export const GET: APIRoute = async ({ locals, request }) => {
-  // TODO: Replace with real auth once available
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
-  // ...
-}
-```
-
 **New Pattern**:
 ```typescript
 export const GET: APIRoute = async ({ locals, request }) => {

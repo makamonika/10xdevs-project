@@ -12,6 +12,13 @@ import { QUERIES_COLUMNS } from "../db/projections";
 import { mapQueryRowToDto } from "../mappers";
 import { recomputeAndPersistGroupMetrics } from "../group-metrics/service";
 
+export class GroupNotFoundError extends Error {
+  constructor(message = "Group not found") {
+    super(message);
+    this.name = "GroupNotFoundError";
+  }
+}
+
 export interface AddGroupItemsResult {
   addedCount: number;
 }
@@ -158,7 +165,6 @@ export async function removeGroupItem(
  */
 export async function getGroupItems(
   supabase: SupabaseClient<Database>,
-  userId: string,
   groupId: string,
   opts?: {
     limit?: number;

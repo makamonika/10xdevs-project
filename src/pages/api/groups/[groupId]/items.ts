@@ -20,8 +20,6 @@ export const prerender = false;
  * Authentication is skipped for now per instructions; a placeholder userId is used.
  */
 export const GET: APIRoute = async ({ params, locals, url }) => {
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
-
   // Validate path params
   const parsedParams = pathParamsSchema.safeParse({ groupId: params.groupId });
   if (!parsedParams.success) {
@@ -46,7 +44,7 @@ export const GET: APIRoute = async ({ params, locals, url }) => {
 
   // Fetch group items
   try {
-    const result = await getGroupItems(locals.supabase, userId, parsedParams.data.groupId, {
+    const result = await getGroupItems(locals.supabase, parsedParams.data.groupId, {
       limit,
       offset,
     });

@@ -126,7 +126,7 @@ export function CreateGroupModal({
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting || !name.trim()}>
+            <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Creating..." : "Create Group"}
             </Button>
           </DialogFooter>

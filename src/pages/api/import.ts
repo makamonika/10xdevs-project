@@ -38,10 +38,6 @@ export const POST: APIRoute = async ({ locals }) => {
   // const { data: { user }, error: authError } = await locals.supabase.auth.getUser();
   // if (authError || !user) return unauthorized response
   // const userId = user.id;
-
-  // For MVP, using a placeholder userId
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
-
   try {
     // Generate unique import ID for tracking
     const importId = crypto.randomUUID();
