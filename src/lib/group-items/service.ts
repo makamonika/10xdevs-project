@@ -27,6 +27,27 @@ export interface RemoveGroupItemResult {
   removed: boolean;
 }
 
+async function ensureGroupOwnedByUser(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  groupId: string
+): Promise<void> {
+  const { data, error } = await supabase
+    .from("groups")
+    .select("id")
+    .eq("id", groupId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Failed to verify group ownership: ${error.message}`);
+  }
+
+  if (!data) {
+    throw new GroupNotFoundError();
+  }
+}
+
 /**
  * Add multiple query IDs to a group
  * - Deduplicates input
@@ -46,6 +67,8 @@ export async function addGroupItems(
   if (uniqueQueryIds.length === 0) {
     return { addedCount: 0 };
   }
+
+  await ensureGroupOwnedByUser(supabase, userId, groupId);
 
   // Step 2: Verify all query IDs exist
   const { data: existingQueries, error: queriesError } = await supabase
@@ -128,6 +151,8 @@ export async function removeGroupItem(
     throw new Error("Query ID cannot be empty");
   }
 
+  await ensureGroupOwnedByUser(supabase, userId, groupId);
+
   // Step 2: Delete the item
   const { error, count } = await supabase
     .from("group_items")
@@ -165,12 +190,15 @@ export async function removeGroupItem(
  */
 export async function getGroupItems(
   supabase: SupabaseClient<Database>,
+  userId: string,
   groupId: string,
   opts?: {
     limit?: number;
     offset?: number;
   }
 ): Promise<{ data: QueryDto[]; total: number }> {
+  await ensureGroupOwnedByUser(supabase, userId, groupId);
+
   // Step 1: Join group_items with queries using the foreign key relationship
   // Using inner join to only get items where the query exists
   const { data, error, count } = await supabase

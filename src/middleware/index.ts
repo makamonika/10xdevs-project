@@ -1,6 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 
-import { supabaseClient, createSupabaseServerInstance } from "../db/supabase.client";
+import { createSupabaseServerInstance } from "../db/supabase.client";
 
 // Public routes that don't require authentication
 const PUBLIC_ROUTES = [
@@ -18,42 +18,55 @@ const PUBLIC_ROUTES = [
 const PUBLIC_PATTERNS = [/^\/favicon\.png$/, /^\/_astro\//, /^\/api\/health$/];
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  // 1. Inject legacy Supabase client (kept for backward compatibility)
-  context.locals.supabase = supabaseClient;
-
   const { url, cookies, redirect, request } = context;
   const pathname = new URL(url).pathname;
-
-  // 2. Check if route is public
   const isPublicRoute = PUBLIC_ROUTES.includes(pathname) || PUBLIC_PATTERNS.some((pattern) => pattern.test(pathname));
+  const isApiRoute = pathname.startsWith("/api/");
 
-  if (isPublicRoute) {
-    return next();
-  }
-
-  // 3. Create SSR-enabled Supabase client for auth validation
   const supabase = createSupabaseServerInstance({
     headers: request.headers,
     cookies,
   });
 
-  // 4. Validate session with Supabase
+  context.locals.supabase = supabase;
+
   const {
     data: { user },
     error,
   } = await supabase.auth.getUser();
 
-  if (error || !user) {
-    // Invalid or missing session, redirect to login
-    return redirect(`/login?redirect=${encodeURIComponent(pathname)}`);
+  if (error) {
+    console.error("[middleware] Failed to fetch authenticated user:", error.message);
   }
 
-  // 5. Inject authenticated user into context
-  context.locals.user = {
-    id: user.id,
-    email: user.email!,
-    createdAt: user.created_at,
-  };
+  if (user) {
+    context.locals.user = {
+      id: user.id,
+      email: user.email ?? "",
+      createdAt: user.created_at,
+    };
+  } else {
+    context.locals.user = undefined;
+  }
+
+  if (!user && !isPublicRoute) {
+    if (isApiRoute) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            code: "unauthorized",
+            message: "Authentication required",
+          },
+        }),
+        {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    return redirect(`/login?redirect=${encodeURIComponent(pathname)}`);
+  }
 
   return next();
 });

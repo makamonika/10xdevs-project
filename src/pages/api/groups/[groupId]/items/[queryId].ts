@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import type { ErrorResponse } from "../../../../../types";
 import { deleteItemParamsSchema } from "../../../_schemas/groupItem";
 import { removeGroupItem, GroupNotFoundError } from "../../../../../lib/group-items/service";
+import { requireUser, UnauthorizedError, buildUnauthorizedResponse } from "../../../../../lib/auth/utils";
 
 export const prerender = false;
 /**
@@ -9,10 +10,17 @@ export const prerender = false;
  *
  * Remove a single query from a group by query ID.
  *
- * Authentication is skipped for now per instructions; a placeholder userId is used.
  */
 export const DELETE: APIRoute = async ({ params, locals }) => {
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
 
   // Validate path params
   const parsedParams = deleteItemParamsSchema.safeParse({

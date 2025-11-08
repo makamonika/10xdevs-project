@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import type { ErrorResponse } from "../../../types";
 import { pathParamsSchema, updateGroupSchema } from "../_schemas/group";
 import { getGroupById, updateGroup, deleteGroup, DuplicateGroupNameError } from "../../../lib/groups/service";
+import { requireUser, UnauthorizedError, buildUnauthorizedResponse } from "../../../lib/auth/utils";
 
 export const prerender = false;
 
@@ -10,11 +11,18 @@ export const prerender = false;
  * PATCH /api/groups/:groupId
  * DELETE /api/groups/:groupId
  *
- * Authentication is skipped for now per instructions; a placeholder userId is used.
  */
 
 export const GET: APIRoute = async ({ params, locals }) => {
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
   const parsed = pathParamsSchema.safeParse({ groupId: params.groupId });
   if (!parsed.success) {
     const errorResponse: ErrorResponse = {
@@ -47,7 +55,15 @@ export const GET: APIRoute = async ({ params, locals }) => {
 };
 
 export const PATCH: APIRoute = async ({ params, request, locals }) => {
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
   const parsedParams = pathParamsSchema.safeParse({ groupId: params.groupId });
   if (!parsedParams.success) {
     const errorResponse: ErrorResponse = {
@@ -111,7 +127,15 @@ export const PATCH: APIRoute = async ({ params, request, locals }) => {
 };
 
 export const DELETE: APIRoute = async ({ params, locals }) => {
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
   const parsed = pathParamsSchema.safeParse({ groupId: params.groupId });
   if (!parsed.success) {
     const errorResponse: ErrorResponse = {

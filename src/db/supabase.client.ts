@@ -7,7 +7,6 @@ import type { Database } from "./database.types";
 const supabaseUrl = import.meta.env.SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.SUPABASE_KEY;
 
-// Legacy client for non-auth operations (kept for backward compatibility)
 export const supabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 // Cookie options for authentication

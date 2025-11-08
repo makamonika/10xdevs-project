@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { addGroupItems, removeGroupItem, getGroupItems } from "@/lib/group-items/service";
+import { addGroupItems, removeGroupItem, getGroupItems, GroupNotFoundError } from "@/lib/group-items/service";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/db/database.types";
 import {
@@ -42,6 +42,20 @@ describe("Group Items Service", () => {
   const userId = "user-123";
   const groupId = "group-123";
 
+  function createGroupOwnershipMock(options: { exists?: boolean; errorMessage?: string } = {}) {
+    const { exists = true, errorMessage } = options;
+
+    if (errorMessage) {
+      return createPostgrestQueryBuilderMock({
+        maybeSingleResponses: [{ data: null, error: { message: errorMessage } }],
+      });
+    }
+
+    return createPostgrestQueryBuilderMock({
+      maybeSingleResponses: [{ data: exists ? { id: groupId } : null, error: null }],
+    });
+  }
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockSupabase = createSupabaseClientMock();
@@ -60,6 +74,7 @@ describe("Group Items Service", () => {
       // Arrange
       const queryIds = ["query-1", "query-2"];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [{ id: "query-1" }, { id: "query-2" }], error: null }],
       });
@@ -76,7 +91,7 @@ describe("Group Items Service", () => {
         thenResponses: [{ error: null }],
       });
 
-      enqueueFromBuilders(queryExistence, existingItems, insertItems, userActionInsert);
+      enqueueFromBuilders(groupOwnership, queryExistence, existingItems, insertItems, userActionInsert);
 
       // Act
       const result = await addGroupItems(mockSupabase, userId, groupId, queryIds);
@@ -93,6 +108,7 @@ describe("Group Items Service", () => {
       // Arrange
       const queryIds = ["query-1", "query-1", "query-2"];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [{ id: "query-1" }, { id: "query-2" }], error: null }],
       });
@@ -109,7 +125,7 @@ describe("Group Items Service", () => {
         thenResponses: [{ error: null }],
       });
 
-      enqueueFromBuilders(queryExistence, existingItems, insertItems, userActionInsert);
+      enqueueFromBuilders(groupOwnership, queryExistence, existingItems, insertItems, userActionInsert);
 
       // Act
       const result = await addGroupItems(mockSupabase, userId, groupId, queryIds);
@@ -122,6 +138,7 @@ describe("Group Items Service", () => {
       // Arrange
       const queryIds = ["query-1", "query-2", "query-3"];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [{ id: "query-1" }, { id: "query-2" }, { id: "query-3" }], error: null }],
       });
@@ -138,7 +155,7 @@ describe("Group Items Service", () => {
         thenResponses: [{ error: null }],
       });
 
-      enqueueFromBuilders(queryExistence, existingItems, insertItems, userActionInsert);
+      enqueueFromBuilders(groupOwnership, queryExistence, existingItems, insertItems, userActionInsert);
 
       // Act
       const result = await addGroupItems(mockSupabase, userId, groupId, queryIds);
@@ -166,6 +183,7 @@ describe("Group Items Service", () => {
       // Arrange
       const queryIds = ["query-1", "", "query-2", ""];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [{ id: "query-1" }, { id: "query-2" }], error: null }],
       });
@@ -182,7 +200,7 @@ describe("Group Items Service", () => {
         thenResponses: [{ error: null }],
       });
 
-      enqueueFromBuilders(queryExistence, existingItems, insertItems, userActionInsert);
+      enqueueFromBuilders(groupOwnership, queryExistence, existingItems, insertItems, userActionInsert);
 
       // Act
       const result = await addGroupItems(mockSupabase, userId, groupId, queryIds);
@@ -195,11 +213,12 @@ describe("Group Items Service", () => {
       // Arrange
       const queryIds = ["query-1", "invalid-query"];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [{ id: "query-1" }], error: null }],
       });
 
-      enqueueFromBuilders(queryExistence);
+      enqueueFromBuilders(groupOwnership, queryExistence);
 
       // Act & Assert
       await expect(addGroupItems(mockSupabase, userId, groupId, queryIds)).rejects.toThrow(
@@ -207,15 +226,39 @@ describe("Group Items Service", () => {
       );
     });
 
+    it("should throw GroupNotFoundError when group does not belong to user", async () => {
+      // Arrange
+      const queryIds = ["query-1"];
+      const groupOwnership = createGroupOwnershipMock({ exists: false });
+
+      enqueueFromBuilders(groupOwnership);
+
+      // Act & Assert
+      await expect(addGroupItems(mockSupabase, userId, groupId, queryIds)).rejects.toBeInstanceOf(GroupNotFoundError);
+    });
+
+    it("should surface errors when group ownership check fails", async () => {
+      // Arrange
+      const queryIds = ["query-1"];
+      const groupOwnership = createGroupOwnershipMock({ errorMessage: "Ownership error" });
+
+      enqueueFromBuilders(groupOwnership);
+
+      // Act & Assert
+      await expect(addGroupItems(mockSupabase, userId, groupId, queryIds)).rejects.toThrow(
+        "Failed to verify group ownership: Ownership error"
+      );
+    });
     it("should throw error when query verification fails", async () => {
       // Arrange
       const queryIds = ["query-1", "query-2"];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: null, error: { message: "Database error" } }],
       });
 
-      enqueueFromBuilders(queryExistence);
+      enqueueFromBuilders(groupOwnership, queryExistence);
 
       // Act & Assert
       await expect(addGroupItems(mockSupabase, userId, groupId, queryIds)).rejects.toThrow(
@@ -227,6 +270,7 @@ describe("Group Items Service", () => {
       // Arrange
       const queryIds = ["query-1", "query-2"];
 
+      const groupOwnership = createGroupOwnershipMock();
       const queryExistence = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [{ id: "query-1" }, { id: "query-2" }], error: null }],
       });
@@ -239,7 +283,7 @@ describe("Group Items Service", () => {
         thenResponses: [{ error: { message: "Insert failed" } }],
       });
 
-      enqueueFromBuilders(queryExistence, existingItems, insertItems);
+      enqueueFromBuilders(groupOwnership, queryExistence, existingItems, insertItems);
 
       // Act & Assert
       await expect(addGroupItems(mockSupabase, userId, groupId, queryIds)).rejects.toThrow(
@@ -253,6 +297,7 @@ describe("Group Items Service", () => {
       // Arrange
       const queryId = "query-1";
 
+      const groupOwnership = createGroupOwnershipMock();
       const deleteQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ error: null, count: 1 }],
       });
@@ -261,14 +306,15 @@ describe("Group Items Service", () => {
         thenResponses: [{ error: null }],
       });
 
-      enqueueFromBuilders(deleteQuery, userActionInsert);
+      enqueueFromBuilders(groupOwnership, deleteQuery, userActionInsert);
 
       // Act
       const result = await removeGroupItem(mockSupabase, userId, groupId, queryId);
 
       // Assert
       expect(result.removed).toBe(true);
-      expect(mockSupabase.from).toHaveBeenNthCalledWith(1, "group_items");
+      expect(mockSupabase.from).toHaveBeenNthCalledWith(1, "groups");
+      expect(mockSupabase.from).toHaveBeenNthCalledWith(2, "group_items");
       expect(deleteQuery.delete).toHaveBeenCalledWith({ count: "exact" });
       expect(deleteQuery.eq).toHaveBeenCalledWith("group_id", groupId);
       expect(deleteQuery.eq).toHaveBeenCalledWith("query_id", queryId);
@@ -278,11 +324,12 @@ describe("Group Items Service", () => {
       // Arrange
       const queryId = "query-1";
 
+      const groupOwnership = createGroupOwnershipMock();
       const deleteQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ error: null, count: 0 }],
       });
 
-      enqueueFromBuilders(deleteQuery);
+      enqueueFromBuilders(groupOwnership, deleteQuery);
 
       // Act
       const result = await removeGroupItem(mockSupabase, userId, groupId, queryId);
@@ -311,11 +358,12 @@ describe("Group Items Service", () => {
       // Arrange
       const queryId = "query-1";
 
+      const groupOwnership = createGroupOwnershipMock();
       const deleteQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ error: { message: "Database error" }, count: null }],
       });
 
-      enqueueFromBuilders(deleteQuery);
+      enqueueFromBuilders(groupOwnership, deleteQuery);
 
       // Act & Assert
       await expect(removeGroupItem(mockSupabase, userId, groupId, queryId)).rejects.toThrow(
@@ -323,15 +371,39 @@ describe("Group Items Service", () => {
       );
     });
 
+    it("should throw GroupNotFoundError when group does not belong to user", async () => {
+      // Arrange
+      const queryId = "query-1";
+      const groupOwnership = createGroupOwnershipMock({ exists: false });
+
+      enqueueFromBuilders(groupOwnership);
+
+      // Act & Assert
+      await expect(removeGroupItem(mockSupabase, userId, groupId, queryId)).rejects.toBeInstanceOf(GroupNotFoundError);
+    });
+
+    it("should surface errors when group ownership check fails", async () => {
+      // Arrange
+      const queryId = "query-1";
+      const groupOwnership = createGroupOwnershipMock({ errorMessage: "Ownership error" });
+
+      enqueueFromBuilders(groupOwnership);
+
+      // Act & Assert
+      await expect(removeGroupItem(mockSupabase, userId, groupId, queryId)).rejects.toThrow(
+        "Failed to verify group ownership: Ownership error"
+      );
+    });
     it("should handle null count from delete operation", async () => {
       // Arrange
       const queryId = "query-1";
 
+      const groupOwnership = createGroupOwnershipMock();
       const deleteQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ error: null, count: null }],
       });
 
-      enqueueFromBuilders(deleteQuery);
+      enqueueFromBuilders(groupOwnership, deleteQuery);
 
       // Act
       const result = await removeGroupItem(mockSupabase, userId, groupId, queryId);
@@ -377,14 +449,15 @@ describe("Group Items Service", () => {
         },
       ];
 
+      const groupOwnership = createGroupOwnershipMock();
       const selectQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: mockData, error: null, count: 2 }],
       });
 
-      enqueueFromBuilders(selectQuery);
+      enqueueFromBuilders(groupOwnership, selectQuery);
 
       // Act
-      const result = await getGroupItems(mockSupabase, groupId);
+      const result = await getGroupItems(mockSupabase, userId, groupId);
 
       // Assert
       expect(result.data).toHaveLength(2);
@@ -396,11 +469,12 @@ describe("Group Items Service", () => {
 
     it("should return empty array when group has no items", async () => {
       // Arrange
+      const groupOwnership = createGroupOwnershipMock();
       const selectQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: [], error: null, count: 0 }],
       });
 
-      enqueueFromBuilders(selectQuery);
+      enqueueFromBuilders(groupOwnership, selectQuery);
 
       // Act
       const result = await getGroupItems(mockSupabase, userId, groupId);
@@ -412,14 +486,17 @@ describe("Group Items Service", () => {
 
     it("should throw error when query fails", async () => {
       // Arrange
+      const groupOwnership = createGroupOwnershipMock();
       const selectQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: null, error: { message: "Database error" }, count: null }],
       });
 
-      enqueueFromBuilders(selectQuery);
+      enqueueFromBuilders(groupOwnership, selectQuery);
 
       // Act & Assert
-      await expect(getGroupItems(mockSupabase, groupId)).rejects.toThrow("Failed to fetch group items: Database error");
+      await expect(getGroupItems(mockSupabase, userId, groupId)).rejects.toThrow(
+        "Failed to fetch group items: Database error"
+      );
     });
 
     it("should apply pagination when provided", async () => {
@@ -472,14 +549,15 @@ describe("Group Items Service", () => {
         },
       ];
 
+      const groupOwnership = createGroupOwnershipMock();
       const selectQuery = createPostgrestQueryBuilderMock({
         thenResponses: [{ data: mockData, error: null, count: 3 }],
       });
 
-      enqueueFromBuilders(selectQuery);
+      enqueueFromBuilders(groupOwnership, selectQuery);
 
       // Act - Get second page with limit 2
-      const result = await getGroupItems(mockSupabase, groupId, {
+      const result = await getGroupItems(mockSupabase, userId, groupId, {
         limit: 2,
         offset: 1,
       });
@@ -489,6 +567,28 @@ describe("Group Items Service", () => {
       expect(result.total).toBe(3);
       expect(result.data[0].id).toBe("query-2");
       expect(result.data[1].id).toBe("query-3");
+    });
+
+    it("should throw GroupNotFoundError when group does not belong to user", async () => {
+      // Arrange
+      const groupOwnership = createGroupOwnershipMock({ exists: false });
+
+      enqueueFromBuilders(groupOwnership);
+
+      // Act & Assert
+      await expect(getGroupItems(mockSupabase, userId, groupId)).rejects.toBeInstanceOf(GroupNotFoundError);
+    });
+
+    it("should surface errors when group ownership check fails", async () => {
+      // Arrange
+      const groupOwnership = createGroupOwnershipMock({ errorMessage: "Ownership error" });
+
+      enqueueFromBuilders(groupOwnership);
+
+      // Act & Assert
+      await expect(getGroupItems(mockSupabase, userId, groupId)).rejects.toThrow(
+        "Failed to verify group ownership: Ownership error"
+      );
     });
   });
 });

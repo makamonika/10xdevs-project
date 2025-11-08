@@ -3,6 +3,7 @@ import type { ErrorResponse, GetGroupItemsResponseDto } from "../../../../types"
 import { pathParamsSchema } from "../../_schemas/group";
 import { addItemsBodySchema } from "../../_schemas/groupItem";
 import { addGroupItems, getGroupItems, GroupNotFoundError } from "../../../../lib/group-items/service";
+import { requireUser, UnauthorizedError, buildUnauthorizedResponse } from "../../../../lib/auth/utils";
 
 export const prerender = false;
 
@@ -17,9 +18,18 @@ export const prerender = false;
  * - limit?: number - default 100, range 1-1000
  * - offset?: number - default 0, min 0
  *
- * Authentication is skipped for now per instructions; a placeholder userId is used.
  */
 export const GET: APIRoute = async ({ params, locals, url }) => {
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
+
   // Validate path params
   const parsedParams = pathParamsSchema.safeParse({ groupId: params.groupId });
   if (!parsedParams.success) {
@@ -44,7 +54,7 @@ export const GET: APIRoute = async ({ params, locals, url }) => {
 
   // Fetch group items
   try {
-    const result = await getGroupItems(locals.supabase, parsedParams.data.groupId, {
+    const result = await getGroupItems(locals.supabase, userId, parsedParams.data.groupId, {
       limit,
       offset,
     });
@@ -99,10 +109,17 @@ export const GET: APIRoute = async ({ params, locals, url }) => {
  * All texts are normalized to lowercase and deduplicated.
  * Returns count of newly added items (0 if all already existed).
  *
- * Authentication is skipped for now per instructions; a placeholder userId is used.
  */
 export const POST: APIRoute = async ({ params, request, locals }) => {
-  const userId = "95f925a0-a5b9-47c2-b403-b29a9a66e88b";
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
 
   // Validate path params
   const parsedParams = pathParamsSchema.safeParse({ groupId: params.groupId });
