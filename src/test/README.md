@@ -67,10 +67,18 @@ E2E tests should be placed in `src/test/e2e/` with `.spec.ts` extension.
 ### Key Features
 
 - **Chromium only** (as per project guidelines)
-- **Automatic dev server** starts before tests
+- **Automatic dev server** starts before tests (uses `npm run dev:e2e`)
 - **Trace viewer** enabled for debugging
 - **HTML reporter** for test results
 - **Parallel execution** for faster test runs
+- **Page Objects** live in `src/test/e2e/pages` and model the core group management flows
+
+### Environment Setup
+
+- Provide Supabase credentials in `.env.test` including `SUPABASE_URL` and `SUPABASE_KEY`.
+- Define QA auth credentials used for test automation via `E2E_USERNAME_ID`, `E2E_USERNAME`, and `E2E_PASSWORD`.
+- `playwright/.auth/qa-user.json` is generated automatically during global setup; do not commit this file.
+- Baseline query data is reseeded before each test and group/user action tables are cleaned after every run.
 
 ## Configuration Files
 
