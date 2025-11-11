@@ -1,4 +1,4 @@
-# SEO Query Insights Dashboard
+# SEO Query Insights Dashboard test
 
 > An internal tool for SEO specialists to analyze Google Search Console query data and discover optimization opportunities through AI-assisted clustering.
 
