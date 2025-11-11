@@ -139,12 +139,16 @@ export function GroupDetailsPage({ groupId }: GroupDetailsPageProps) {
   // Handle add queries
   const handleAddQueries = async (queryIds: string[]) => {
     try {
-      await addItems(groupId, queryIds);
+      const result = await addItems(groupId, queryIds);
       // Refresh both members list and group metrics
       refetchMembers();
       refetchGroup();
       setAddQueriesModalOpen(false);
-      setLiveMessage(`Added ${queryIds.length} ${queryIds.length === 1 ? "query" : "queries"} to group`);
+      if (result.addedCount > 0) {
+        setLiveMessage(`Added ${result.addedCount} ${result.addedCount === 1 ? "query" : "queries"} to group`);
+      } else {
+        setLiveMessage("All selected queries were already in the group");
+      }
     } catch (err) {
       // Error already handled by hook with toast
       setLiveMessage(`Failed to add queries to group`);

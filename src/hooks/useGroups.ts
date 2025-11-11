@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import type { GetGroupsResponseDto, GroupWithMetricsDto, SortOrder, PaginationMeta, PaginationParams } from "@/types";
+import type { GetGroupsResponseDto, GroupDto, SortOrder, PaginationMeta, PaginationParams } from "@/types";
 
 /**
  * Valid sort fields for groups
@@ -14,7 +14,7 @@ export interface UseGroupsParams extends PaginationParams {
 }
 
 export interface UseGroupsResult {
-  data: GroupWithMetricsDto[];
+  data: GroupDto[];
   meta: PaginationMeta;
   isLoading: boolean;
   error: Error | null;
@@ -27,7 +27,7 @@ export interface UseGroupsResult {
  * @returns Group data, pagination metadata, loading state, error, and refetch function
  */
 export function useGroups(params: UseGroupsParams): UseGroupsResult {
-  const [data, setData] = useState<GroupWithMetricsDto[]>([]);
+  const [data, setData] = useState<GroupDto[]>([]);
   const [meta, setMeta] = useState<PaginationMeta>({ total: 0, limit: params.limit || 50, offset: params.offset || 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -117,7 +117,7 @@ export function useGroups(params: UseGroupsParams): UseGroupsResult {
  * @returns Group data, loading state, error, and refetch function
  */
 export function useGroup(groupId: string) {
-  const [data, setData] = useState<GroupWithMetricsDto | null>(null);
+  const [data, setData] = useState<GroupDto | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [refetchTrigger, setRefetchTrigger] = useState(0);
@@ -152,7 +152,7 @@ export function useGroup(groupId: string) {
           throw new Error(`Failed to fetch group: ${response.statusText}`);
         }
 
-        const result: GroupWithMetricsDto = await response.json();
+        const result: GroupDto = await response.json();
 
         if (!isCancelled) {
           setData(result);

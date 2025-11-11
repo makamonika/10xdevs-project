@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import type { ErrorResponse, GetGroupsResponseDto, GroupWithMetricsDto } from "../../../types";
+import type { ErrorResponse, GetGroupsResponseDto, GroupDto } from "@/types";
 import { groupListQuerySchema, createGroupSchema } from "../_schemas/group";
 import { listGroups, createGroup, DuplicateGroupNameError } from "../../../lib/services/groups.service";
 import { requireUser, UnauthorizedError, buildUnauthorizedResponse } from "../../../lib/auth/utils";
@@ -130,7 +130,7 @@ export const POST: APIRoute = async ({ locals, request }) => {
 
     try {
       const created = await createGroup(locals.supabase, userId, parsed.data);
-      return new Response(JSON.stringify(created satisfies GroupWithMetricsDto), {
+      return new Response(JSON.stringify(created satisfies GroupDto), {
         status: 201,
         headers: { "Content-Type": "application/json" },
       });

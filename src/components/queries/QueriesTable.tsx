@@ -177,6 +177,7 @@ export const QueriesTable = memo(function QueriesTable({
                       }),
                 }}
                 role="row"
+                aria-label={row.queryText}
                 aria-selected={isSelected}
               >
                 {hasSelection && (

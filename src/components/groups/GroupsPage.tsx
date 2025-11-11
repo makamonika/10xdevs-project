@@ -7,12 +7,12 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useGroups, type GroupSortField } from "@/hooks/useGroups";
 import { useGroupActions } from "@/hooks/useGroupActions";
 import { useAIClusters } from "@/hooks/useAIClusters";
-import type { SortOrder, GroupWithMetricsDto } from "@/types";
+import type { SortOrder, GroupDto } from "@/types";
 
 /**
  * View-specific row type for groups list
  */
-export type GroupRowView = GroupWithMetricsDto;
+export type GroupRowView = GroupDto;
 
 export function GroupsPage() {
   // Live region for accessibility announcements

@@ -72,7 +72,9 @@ export function EditableHeader({ name, aiGenerated, isSaving, isDeleting, onRena
           </div>
         ) : (
           <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-3xl font-bold break-words">{name}</h1>
+            <h1 data-testid="group-title" className="text-3xl font-bold break-words">
+              {name}
+            </h1>
             {aiGenerated && (
               <Badge variant="secondary" className="gap-1">
                 <SparklesIcon className="size-3" />
