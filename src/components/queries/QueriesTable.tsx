@@ -94,7 +94,7 @@ export const QueriesTable = memo(function QueriesTable({
         <button
           type="button"
           onClick={() => handleColumnHeaderClick("impressions")}
-          className="flex items-center text-right hover:text-foreground"
+          className="flex items-center justify-end hover:text-foreground"
           role="columnheader"
           aria-sort={sortBy === "impressions" ? (order === "asc" ? "ascending" : "descending") : "none"}
         >
@@ -104,7 +104,7 @@ export const QueriesTable = memo(function QueriesTable({
         <button
           type="button"
           onClick={() => handleColumnHeaderClick("clicks")}
-          className="flex items-center text-right hover:text-foreground"
+          className="flex items-center justify-end hover:text-foreground"
           role="columnheader"
           aria-sort={sortBy === "clicks" ? (order === "asc" ? "ascending" : "descending") : "none"}
         >
@@ -114,7 +114,7 @@ export const QueriesTable = memo(function QueriesTable({
         <button
           type="button"
           onClick={() => handleColumnHeaderClick("ctr")}
-          className="flex items-center text-right hover:text-foreground"
+          className="flex items-center justify-end hover:text-foreground"
           role="columnheader"
           aria-sort={sortBy === "ctr" ? (order === "asc" ? "ascending" : "descending") : "none"}
         >
@@ -124,14 +124,16 @@ export const QueriesTable = memo(function QueriesTable({
         <button
           type="button"
           onClick={() => handleColumnHeaderClick("avgPosition")}
-          className="flex items-center text-right hover:text-foreground"
+          className="flex items-center justify-end hover:text-foreground"
           role="columnheader"
           aria-sort={sortBy === "avgPosition" ? (order === "asc" ? "ascending" : "descending") : "none"}
         >
           Avg Position
           {getSortIcon(sortBy === "avgPosition", order)}
         </button>
-        <div role="columnheader">Opportunity</div>
+        <div className="text-right" role="columnheader">
+          Opportunity
+        </div>
         {hasActions && (
           <div className="text-center" role="columnheader">
             Actions
@@ -207,7 +209,7 @@ export const QueriesTable = memo(function QueriesTable({
                 <div className="text-right tabular-nums" role="gridcell">
                   {formatNumber(row.avgPosition, 1)}
                 </div>
-                <div role="gridcell">
+                <div className="flex justify-end" role="gridcell">
                   <OpportunityBadge isOpportunity={row.isOpportunity} />
                 </div>
                 {hasActions && (
