@@ -1,0 +1,1883 @@
+[
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 250,
+    "clicks": 25,
+    "avg_position": 85.43,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 790,
+    "clicks": 42,
+    "avg_position": 10.79,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-10-15T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 222,
+    "clicks": 3,
+    "avg_position": 164.66,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 697,
+    "clicks": 38,
+    "avg_position": 243.72,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 984,
+    "clicks": 44,
+    "avg_position": 272.47,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 568,
+    "clicks": 35,
+    "avg_position": 252.89,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 711,
+    "clicks": 66,
+    "avg_position": 50.2,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 883,
+    "clicks": 21,
+    "avg_position": 202.21,
+    "query": "gaming monitor"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 710,
+    "clicks": 29,
+    "avg_position": 13.92,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-10-05T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 960,
+    "clicks": 15,
+    "avg_position": 155.72,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 163,
+    "clicks": 14,
+    "avg_position": 237.1,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 134,
+    "clicks": 12,
+    "avg_position": 152.2,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 926,
+    "clicks": 28,
+    "avg_position": 283.52,
+    "query": "tv wall mount"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 402,
+    "clicks": 19,
+    "avg_position": 277.19,
+    "query": "iron steam"
+  },
+  {
+    "date": "2025-10-02T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 506,
+    "clicks": 48,
+    "avg_position": 77.26,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 394,
+    "clicks": 13,
+    "avg_position": 152.5,
+    "query": "electric kettle"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 392,
+    "clicks": 8,
+    "avg_position": 14.88,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 279,
+    "clicks": 28,
+    "avg_position": 38.37,
+    "query": "coffee maker"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 745,
+    "clicks": 17,
+    "avg_position": 282.82,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-10T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 496,
+    "clicks": 38,
+    "avg_position": 297.49,
+    "query": "tv 4k"
+  },
+  {
+    "date": "2025-10-15T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 414,
+    "clicks": 7,
+    "avg_position": 169.71,
+    "query": "smart tv"
+  },
+  {
+    "date": "2025-10-12T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 580,
+    "clicks": 69,
+    "avg_position": 64.02,
+    "query": "lg refrigerator"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 744,
+    "clicks": 26,
+    "avg_position": 217.2,
+    "query": "iron steam"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 212,
+    "clicks": 9,
+    "avg_position": 154.12,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 255,
+    "clicks": 27,
+    "avg_position": 110.8,
+    "query": "sony headphones"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 806,
+    "clicks": 41,
+    "avg_position": 256.48,
+    "query": "blender"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 616,
+    "clicks": 64,
+    "avg_position": 12.59,
+    "query": "soundbar"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 629,
+    "clicks": 74,
+    "avg_position": 201.18,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-10-02T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 376,
+    "clicks": 14,
+    "avg_position": 8.2,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 831,
+    "clicks": 85,
+    "avg_position": 209.95,
+    "query": "coffee maker"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 14,
+    "clicks": 1,
+    "avg_position": 36.83,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-06T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 577,
+    "clicks": 56,
+    "avg_position": 290.27,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-10-21T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 668,
+    "clicks": 26,
+    "avg_position": 247.56,
+    "query": "electric kettle"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 937,
+    "clicks": 116,
+    "avg_position": 168.98,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 113,
+    "clicks": 0,
+    "avg_position": 215.07,
+    "query": "home theater"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 821,
+    "clicks": 34,
+    "avg_position": 263.82,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 726,
+    "clicks": 89,
+    "avg_position": 156.26,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 709,
+    "clicks": 16,
+    "avg_position": 162.55,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 688,
+    "clicks": 3,
+    "avg_position": 217.83,
+    "query": "electric kettle"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 797,
+    "clicks": 17,
+    "avg_position": 79.45,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 565,
+    "clicks": 28,
+    "avg_position": 210.75,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 861,
+    "clicks": 74,
+    "avg_position": 18.67,
+    "query": "sony headphones"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 505,
+    "clicks": 8,
+    "avg_position": 98.09,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 817,
+    "clicks": 101,
+    "avg_position": 43.14,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 522,
+    "clicks": 5,
+    "avg_position": 254.91,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-10-05T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 643,
+    "clicks": 7,
+    "avg_position": 33.48,
+    "query": "home theater"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 801,
+    "clicks": 30,
+    "avg_position": 122.32,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 464,
+    "clicks": 56,
+    "avg_position": 291.95,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-09-26T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 839,
+    "clicks": 79,
+    "avg_position": 195.09,
+    "query": "tv 4k"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 627,
+    "clicks": 31,
+    "avg_position": 162.37,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 742,
+    "clicks": 86,
+    "avg_position": 168.47,
+    "query": "dishwasher"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 563,
+    "clicks": 56,
+    "avg_position": 133.17,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 246,
+    "clicks": 9,
+    "avg_position": 68.18,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 43,
+    "clicks": 2,
+    "avg_position": 190.18,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 755,
+    "clicks": 4,
+    "avg_position": 128.95,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 922,
+    "clicks": 13,
+    "avg_position": 255.74,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-10-05T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 410,
+    "clicks": 3,
+    "avg_position": 191.9,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 820,
+    "clicks": 48,
+    "avg_position": 51.3,
+    "query": "lg refrigerator"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 944,
+    "clicks": 97,
+    "avg_position": 199.95,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 54,
+    "clicks": 6,
+    "avg_position": 268.34,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-10-19T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 165,
+    "clicks": 19,
+    "avg_position": 40.44,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 821,
+    "clicks": 90,
+    "avg_position": 100.54,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 674,
+    "clicks": 39,
+    "avg_position": 159.16,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 724,
+    "clicks": 64,
+    "avg_position": 106.04,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 15,
+    "clicks": 1,
+    "avg_position": 211.83,
+    "query": "toaster"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 215,
+    "clicks": 19,
+    "avg_position": 35.33,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-09-30T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 393,
+    "clicks": 26,
+    "avg_position": 16.99,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-10-21T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 44,
+    "clicks": 4,
+    "avg_position": 105.41,
+    "query": "dishwasher"
+  },
+  {
+    "date": "2025-10-14T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 736,
+    "clicks": 25,
+    "avg_position": 74.83,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 217,
+    "clicks": 17,
+    "avg_position": 48.82,
+    "query": "soundbar"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 314,
+    "clicks": 39,
+    "avg_position": 213.47,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 494,
+    "clicks": 39,
+    "avg_position": 13,
+    "query": "toaster"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 152,
+    "clicks": 5,
+    "avg_position": 292.06,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 881,
+    "clicks": 102,
+    "avg_position": 249.73,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-10-06T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 746,
+    "clicks": 7,
+    "avg_position": 230.97,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 134,
+    "clicks": 3,
+    "avg_position": 221.1,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 336,
+    "clicks": 15,
+    "avg_position": 227.88,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 858,
+    "clicks": 60,
+    "avg_position": 270.59,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 852,
+    "clicks": 88,
+    "avg_position": 61.13,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-10-14T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 606,
+    "clicks": 60,
+    "avg_position": 297.04,
+    "query": "home theater"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 970,
+    "clicks": 36,
+    "avg_position": 246.69,
+    "query": "tv 4k"
+  },
+  {
+    "date": "2025-10-14T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 241,
+    "clicks": 7,
+    "avg_position": 209.2,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 926,
+    "clicks": 15,
+    "avg_position": 206.08,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 878,
+    "clicks": 11,
+    "avg_position": 262.09,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 117,
+    "clicks": 1,
+    "avg_position": 185.53,
+    "query": "tv 4k"
+  },
+  {
+    "date": "2025-10-13T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 695,
+    "clicks": 62,
+    "avg_position": 119.49,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 994,
+    "clicks": 70,
+    "avg_position": 142.07,
+    "query": "blender"
+  },
+  {
+    "date": "2025-10-14T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 789,
+    "clicks": 10,
+    "avg_position": 283.15,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 874,
+    "clicks": 2,
+    "avg_position": 147.4,
+    "query": "blender"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 260,
+    "clicks": 23,
+    "avg_position": 71.85,
+    "query": "electric kettle"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 411,
+    "clicks": 39,
+    "avg_position": 155.71,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 893,
+    "clicks": 9,
+    "avg_position": 94.39,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 749,
+    "clicks": 76,
+    "avg_position": 100.86,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 792,
+    "clicks": 42,
+    "avg_position": 178.3,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-10-15T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 413,
+    "clicks": 9,
+    "avg_position": 249.36,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 724,
+    "clicks": 18,
+    "avg_position": 125.25,
+    "query": "blender"
+  },
+  {
+    "date": "2025-10-21T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 502,
+    "clicks": 39,
+    "avg_position": 96.88,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 755,
+    "clicks": 29,
+    "avg_position": 47.91,
+    "query": "sony headphones"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 533,
+    "clicks": 40,
+    "avg_position": 288.41,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-02T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 19,
+    "clicks": 0,
+    "avg_position": 194.56,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-19T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 310,
+    "clicks": 30,
+    "avg_position": 61.28,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-10-19T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 758,
+    "clicks": 90,
+    "avg_position": 102.56,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-10-14T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 674,
+    "clicks": 77,
+    "avg_position": 141.09,
+    "query": "gaming monitor"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 329,
+    "clicks": 36,
+    "avg_position": 174.76,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 691,
+    "clicks": 18,
+    "avg_position": 4.2,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 791,
+    "clicks": 71,
+    "avg_position": 34.83,
+    "query": "tv wall mount"
+  },
+  {
+    "date": "2025-10-12T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 37,
+    "clicks": 0,
+    "avg_position": 29.74,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 159,
+    "clicks": 7,
+    "avg_position": 95.51,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 948,
+    "clicks": 78,
+    "avg_position": 114.99,
+    "query": "smart tv"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 974,
+    "clicks": 43,
+    "avg_position": 169.68,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-10-17T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 363,
+    "clicks": 33,
+    "avg_position": 204.56,
+    "query": "vacuum cleaner"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 903,
+    "clicks": 31,
+    "avg_position": 43.31,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 576,
+    "clicks": 20,
+    "avg_position": 83.5,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 538,
+    "clicks": 36,
+    "avg_position": 182.32,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 561,
+    "clicks": 25,
+    "avg_position": 130.04,
+    "query": "toaster"
+  },
+  {
+    "date": "2025-10-13T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 187,
+    "clicks": 0,
+    "avg_position": 233.59,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 765,
+    "clicks": 2,
+    "avg_position": 68.83,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 758,
+    "clicks": 93,
+    "avg_position": 14.41,
+    "query": "home theater"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 251,
+    "clicks": 19,
+    "avg_position": 69.21,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-09-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 342,
+    "clicks": 17,
+    "avg_position": 115.72,
+    "query": "gaming monitor"
+  },
+  {
+    "date": "2025-10-10T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 84,
+    "clicks": 4,
+    "avg_position": 35.38,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 949,
+    "clicks": 57,
+    "avg_position": 30.81,
+    "query": "refrigerator"
+  },
+  {
+    "date": "2025-09-30T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 43,
+    "clicks": 3,
+    "avg_position": 225.19,
+    "query": "air fryer"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 965,
+    "clicks": 56,
+    "avg_position": 144.18,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 946,
+    "clicks": 28,
+    "avg_position": 116.68,
+    "query": "dishwasher"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 695,
+    "clicks": 25,
+    "avg_position": 67.89,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-10-13T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 20,
+    "clicks": 0,
+    "avg_position": 5.55,
+    "query": "electric kettle"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 447,
+    "clicks": 36,
+    "avg_position": 215.54,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-10-02T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 444,
+    "clicks": 49,
+    "avg_position": 54.73,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 181,
+    "clicks": 17,
+    "avg_position": 47.31,
+    "query": "blender"
+  },
+  {
+    "date": "2025-10-12T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 788,
+    "clicks": 72,
+    "avg_position": 246.56,
+    "query": "home theater"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 539,
+    "clicks": 1,
+    "avg_position": 172.02,
+    "query": "home theater"
+  },
+  {
+    "date": "2025-10-10T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 779,
+    "clicks": 20,
+    "avg_position": 199.03,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-21T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 465,
+    "clicks": 13,
+    "avg_position": 266.21,
+    "query": "smart tv"
+  },
+  {
+    "date": "2025-10-17T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 854,
+    "clicks": 68,
+    "avg_position": 216.21,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-10-03T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 269,
+    "clicks": 21,
+    "avg_position": 4.13,
+    "query": "tv wall mount"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 293,
+    "clicks": 34,
+    "avg_position": 288.88,
+    "query": "smart tv"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 443,
+    "clicks": 31,
+    "avg_position": 132.08,
+    "query": "lg refrigerator"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 868,
+    "clicks": 17,
+    "avg_position": 92.67,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 228,
+    "clicks": 3,
+    "avg_position": 294.92,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 186,
+    "clicks": 6,
+    "avg_position": 205.56,
+    "query": "coffee maker"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 283,
+    "clicks": 0,
+    "avg_position": 212.49,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 745,
+    "clicks": 50,
+    "avg_position": 249.66,
+    "query": "soundbar"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 48,
+    "clicks": 6,
+    "avg_position": 262.32,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-09-26T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 138,
+    "clicks": 13,
+    "avg_position": 190.97,
+    "query": "wireless headphones"
+  },
+  {
+    "date": "2025-09-25T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 474,
+    "clicks": 9,
+    "avg_position": 257.54,
+    "query": "smart tv"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 124,
+    "clicks": 5,
+    "avg_position": 266.5,
+    "query": "coffee maker"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 261,
+    "clicks": 6,
+    "avg_position": 199.2,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-01T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 264,
+    "clicks": 32,
+    "avg_position": 255.96,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 805,
+    "clicks": 13,
+    "avg_position": 89.61,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 802,
+    "clicks": 38,
+    "avg_position": 288.36,
+    "query": "tv 4k"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 859,
+    "clicks": 22,
+    "avg_position": 18.5,
+    "query": "iron steam"
+  },
+  {
+    "date": "2025-10-15T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 973,
+    "clicks": 81,
+    "avg_position": 247.11,
+    "query": "dishwasher"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 985,
+    "clicks": 54,
+    "avg_position": 146.76,
+    "query": "blender"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 996,
+    "clicks": 88,
+    "avg_position": 161.46,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 86,
+    "clicks": 1,
+    "avg_position": 137.68,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-10-06T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 436,
+    "clicks": 43,
+    "avg_position": 196.66,
+    "query": "gaming monitor"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 838,
+    "clicks": 25,
+    "avg_position": 93.41,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 500,
+    "clicks": 49,
+    "avg_position": 143.11,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 688,
+    "clicks": 70,
+    "avg_position": 137.75,
+    "query": "sony headphones"
+  },
+  {
+    "date": "2025-10-10T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 54,
+    "clicks": 4,
+    "avg_position": 269.58,
+    "query": "toaster"
+  },
+  {
+    "date": "2025-10-12T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 497,
+    "clicks": 40,
+    "avg_position": 27.15,
+    "query": "soundbar"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 809,
+    "clicks": 66,
+    "avg_position": 163.8,
+    "query": "iron steam"
+  },
+  {
+    "date": "2025-10-02T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 467,
+    "clicks": 3,
+    "avg_position": 8.61,
+    "query": "lg refrigerator"
+  },
+  {
+    "date": "2025-10-07T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 300,
+    "clicks": 17,
+    "avg_position": 40.08,
+    "query": "gaming monitor"
+  },
+  {
+    "date": "2025-10-10T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 457,
+    "clicks": 7,
+    "avg_position": 56.72,
+    "query": "dishwasher"
+  },
+  {
+    "date": "2025-10-09T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 740,
+    "clicks": 63,
+    "avg_position": 270.05,
+    "query": "philips tv"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 699,
+    "clicks": 13,
+    "avg_position": 222.15,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 134,
+    "clicks": 0,
+    "avg_position": 254.49,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 566,
+    "clicks": 10,
+    "avg_position": 33.47,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-10-19T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 534,
+    "clicks": 39,
+    "avg_position": 51.11,
+    "query": "microwave oven"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 469,
+    "clicks": 27,
+    "avg_position": 284.43,
+    "query": "cheap tv"
+  },
+  {
+    "date": "2025-10-02T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 181,
+    "clicks": 5,
+    "avg_position": 32.79,
+    "query": "toaster"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 153,
+    "clicks": 18,
+    "avg_position": 281.5,
+    "query": "gaming monitor"
+  },
+  {
+    "date": "2025-10-10T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 727,
+    "clicks": 57,
+    "avg_position": 225.98,
+    "query": "tv wall mount"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 167,
+    "clicks": 2,
+    "avg_position": 56.94,
+    "query": "iron steam"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 97,
+    "clicks": 12,
+    "avg_position": 158.05,
+    "query": "coffee maker"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 209,
+    "clicks": 21,
+    "avg_position": 69.51,
+    "query": "lg refrigerator"
+  },
+  {
+    "date": "2025-10-17T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 549,
+    "clicks": 24,
+    "avg_position": 53.71,
+    "query": "hair dryer"
+  },
+  {
+    "date": "2025-10-23T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 633,
+    "clicks": 41,
+    "avg_position": 185.28,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-05T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 46,
+    "clicks": 5,
+    "avg_position": 219.59,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 655,
+    "clicks": 50,
+    "avg_position": 218.91,
+    "query": "toaster"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 196,
+    "clicks": 0,
+    "avg_position": 152.96,
+    "query": "robot vacuum"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 410,
+    "clicks": 34,
+    "avg_position": 179.93,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-10-05T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 778,
+    "clicks": 14,
+    "avg_position": 196.64,
+    "query": "electric kettle"
+  },
+  {
+    "date": "2025-10-08T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 180,
+    "clicks": 9,
+    "avg_position": 141.43,
+    "query": "bosch dishwasher"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/lg-refrigerator",
+    "impressions": 978,
+    "clicks": 106,
+    "avg_position": 48.06,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 372,
+    "clicks": 30,
+    "avg_position": 157.26,
+    "query": "washing machine"
+  },
+  {
+    "date": "2025-09-26T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 925,
+    "clicks": 12,
+    "avg_position": 242.79,
+    "query": "dishwasher"
+  },
+  {
+    "date": "2025-09-27T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 825,
+    "clicks": 4,
+    "avg_position": 159.76,
+    "query": "small kitchen appliances"
+  },
+  {
+    "date": "2025-10-05T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 981,
+    "clicks": 55,
+    "avg_position": 238.58,
+    "query": "sony headphones"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 628,
+    "clicks": 6,
+    "avg_position": 78.31,
+    "query": "smart tv"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dyson-vacuum-cleaner",
+    "impressions": 284,
+    "clicks": 32,
+    "avg_position": 52.62,
+    "query": "tv 4k"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/how-to-choose-a-smart-tv",
+    "impressions": 41,
+    "clicks": 1,
+    "avg_position": 218.04,
+    "query": "smart home devices"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 168,
+    "clicks": 16,
+    "avg_position": 116.33,
+    "query": "blender"
+  },
+  {
+    "date": "2025-10-04T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/sony-headphones",
+    "impressions": 149,
+    "clicks": 18,
+    "avg_position": 57.6,
+    "query": "best washing machine"
+  },
+  {
+    "date": "2025-09-28T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 527,
+    "clicks": 15,
+    "avg_position": 294.9,
+    "query": "lg refrigerator"
+  },
+  {
+    "date": "2025-10-11T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/smart-tv-samsung",
+    "impressions": 340,
+    "clicks": 5,
+    "avg_position": 133.68,
+    "query": "coffee maker"
+  },
+  {
+    "date": "2025-09-29T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/philips-coffee-maker",
+    "impressions": 807,
+    "clicks": 19,
+    "avg_position": 20.68,
+    "query": "samsung soundbar"
+  },
+  {
+    "date": "2025-10-24T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/best-appliances-2025",
+    "impressions": 754,
+    "clicks": 13,
+    "avg_position": 221.93,
+    "query": "tv wall mount"
+  },
+  {
+    "date": "2025-10-13T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/",
+    "impressions": 440,
+    "clicks": 14,
+    "avg_position": 277.71,
+    "query": "miele vacuum"
+  },
+  {
+    "date": "2025-10-15T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/premium-headphones",
+    "impressions": 1500,
+    "clicks": 8,
+    "avg_position": 7.5,
+    "query": "premium wireless headphones"
+  },
+  {
+    "date": "2025-10-16T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/4k-smart-tv",
+    "impressions": 2200,
+    "clicks": 15,
+    "avg_position": 10.2,
+    "query": "best 4k smart tv"
+  },
+  {
+    "date": "2025-10-17T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/robot-vacuum-pro",
+    "impressions": 1800,
+    "clicks": 12,
+    "avg_position": 8.8,
+    "query": "robot vacuum cleaner"
+  },
+  {
+    "date": "2025-10-18T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/air-fryer-xl",
+    "impressions": 1200,
+    "clicks": 9,
+    "avg_position": 6.3,
+    "query": "large air fryer"
+  },
+  {
+    "date": "2025-10-19T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/dishwasher-premium",
+    "impressions": 2500,
+    "clicks": 18,
+    "avg_position": 12.7,
+    "query": "premium dishwasher"
+  },
+  {
+    "date": "2025-10-20T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/washing-machine-front-load",
+    "impressions": 3000,
+    "clicks": 22,
+    "avg_position": 9.1,
+    "query": "front load washing machine"
+  },
+  {
+    "date": "2025-10-21T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/blog/kitchen-appliances-guide",
+    "impressions": 1400,
+    "clicks": 7,
+    "avg_position": 5.5,
+    "query": "kitchen appliances guide"
+  },
+  {
+    "date": "2025-10-22T00:00:00.000",
+    "site_url": "electrohub.com",
+    "url": "http://www.electrohub.com/products/refrigerator-french-door",
+    "impressions": 1900,
+    "clicks": 14,
+    "avg_position": 11.3,
+    "query": "french door refrigerator"
+  }
+]

@@ -110,8 +110,11 @@ export function transformGscRecord(record: GscDataRecord): TablesInsert<"queries
 /**
  * Fetches data from the source URL with timeout and size limits
  *
- * @param sourceUrl - URL to fetch data from
- * @param timeoutMs - Maximum time to wait for response
+ * TEMPORARY: When USE_MOCK_IMPORT_DATA environment variable is set to "true",
+ * this function will return mock data from fixtures instead of fetching from the real server.
+ * This is a temporary solution while the real data server is inaccessible.
+ *
+ * @param sourceUrl - URL to fetch data from (ignored when using mock data)
  * @param maxBytes - Maximum size of response body
  * @param signal - AbortSignal for cancellation
  * @returns Parsed array of GSC records
@@ -119,10 +122,34 @@ export function transformGscRecord(record: GscDataRecord): TablesInsert<"queries
  */
 export async function fetchImportData(
   sourceUrl: string,
-  timeoutMs: number,
   maxBytes: number,
   signal: AbortSignal
 ): Promise<GscDataRecord[]> {
+  // TEMPORARY: Check if we should use mock data
+  const useMockData = import.meta.env.USE_MOCK_IMPORT_DATA === "true";
+
+  if (useMockData) {
+    console.log("[fetchImportData] Using mock data from fixtures (USE_MOCK_IMPORT_DATA=true)");
+
+    // Import mock data dynamically
+    const mockData = await import("../fixtures/gsc_10xdev.json");
+    const data = mockData.default as GscDataRecord[];
+
+    // Validate data structure (same validation as real fetch)
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid mock data format: expected array of records");
+    }
+
+    // Estimate size check
+    const dataSize = JSON.stringify(data).length;
+    if (dataSize > maxBytes) {
+      throw new Error(`Mock data too large: ${dataSize} bytes exceeds limit of ${maxBytes}`);
+    }
+
+    console.log(`[fetchImportData] Loaded ${data.length} mock records`);
+    return data;
+  }
+
   // Fetch with timeout via signal
   const response = await fetch(sourceUrl, {
     signal,
@@ -218,7 +245,7 @@ export async function runImport(
 ): Promise<ImportServiceResult> {
   try {
     // Step 1: Fetch data from source
-    const rawRecords = await fetchImportData(sourceUrl, ImportConfig.FETCH_TIMEOUT_MS, ImportConfig.MAX_BYTES, signal);
+    const rawRecords = await fetchImportData(sourceUrl, ImportConfig.MAX_BYTES, signal);
 
     if (rawRecords.length === 0) {
       return {

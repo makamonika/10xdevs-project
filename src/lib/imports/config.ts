@@ -19,10 +19,20 @@ export function formatUtcYYYYMMDD(date: Date): string {
 
 /**
  * Retrieves the base URL for import data sources from environment configuration
+ *
+ * TEMPORARY: When USE_MOCK_IMPORT_DATA is set to "true", this function will return
+ * a dummy URL since the actual URL won't be used.
+ *
  * @returns Base URL (HTTPS) for import data sources
- * @throws Error if IMPORT_SOURCE_BASE_URL is not configured
+ * @throws Error if IMPORT_SOURCE_BASE_URL is not configured (unless using mock data)
  */
 export function getImportSourceBaseUrl(): string {
+  // TEMPORARY: If using mock data, return a dummy URL
+  const useMockData = import.meta.env.USE_MOCK_IMPORT_DATA === "true";
+  if (useMockData) {
+    return "https://mock-data.local"; // Dummy URL, won't be used
+  }
+
   const baseUrl = import.meta.env.IMPORT_SOURCE_BASE_URL;
 
   if (!baseUrl) {
@@ -50,7 +60,11 @@ export function getImportSourceBaseUrl(): string {
 /**
  * Builds the full source URL for import data from 3 days ago
  * (GSC data has a 3-day delay)
- * @returns Full HTTPS URL to the data file from 3 days ago
+ *
+ * TEMPORARY: When USE_MOCK_IMPORT_DATA is set to "true", this function will return
+ * a dummy URL since the actual URL won't be used by fetchImportData.
+ *
+ * @returns Full HTTPS URL to the data file from 3 days ago (or dummy URL if using mock data)
  */
 export function buildDailyImportUrl(): string {
   const baseUrl = getImportSourceBaseUrl();
@@ -63,8 +77,6 @@ export function buildDailyImportUrl(): string {
   // Ensure base URL doesn't end with slash for clean concatenation
   const cleanBaseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 
-  console.log("import utr:", `${cleanBaseUrl}/${fileName}`);
-  return "http://localhost:5000/";
   return `${cleanBaseUrl}/${fileName}`;
 }
 

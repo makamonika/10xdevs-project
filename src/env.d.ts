@@ -19,6 +19,8 @@ declare global {
 interface ImportMetaEnv {
   readonly SUPABASE_URL: string;
   readonly SUPABASE_KEY: string;
+  readonly IMPORT_SOURCE_BASE_URL?: string;
+  readonly USE_MOCK_IMPORT_DATA?: string;
 }
 
 interface ImportMeta {
