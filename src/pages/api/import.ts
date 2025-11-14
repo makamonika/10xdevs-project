@@ -24,6 +24,7 @@ import type { Database } from "../../db/database.types";
 import type { ErrorResponse, ImportRunResultDto } from "../../types";
 import { buildDailyImportUrl, ImportConfig } from "../../lib/imports/config";
 import { runImport } from "../../lib/services/import.service";
+import { requireUser, UnauthorizedError, buildUnauthorizedResponse } from "../../lib/auth/utils";
 
 export const prerender = false;
 
@@ -33,11 +34,17 @@ export const prerender = false;
 export const POST: APIRoute = async ({ locals }) => {
   const startTime = Date.now();
 
-  // TODO: Step 2 - Authentication (skipped for now as per user request)
-  // Will need to:
-  // const { data: { user }, error: authError } = await locals.supabase.auth.getUser();
-  // if (authError || !user) return unauthorized response
-  // const userId = user.id;
+  // Step 2: Authentication
+  let userId: string;
+  try {
+    userId = requireUser(locals).id;
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
+
   try {
     // Generate unique import ID for tracking
     const importId = crypto.randomUUID();
@@ -73,7 +80,6 @@ export const POST: APIRoute = async ({ locals }) => {
     }
 
     // Step 5: Run import with timeout
-    // TODO: Implement runImport service
     const result = await runImportWithTimeout(
       locals.supabase,
       userId,

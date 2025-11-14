@@ -5,10 +5,20 @@ import { QUERIES_COLUMNS } from "../../lib/db/projections";
 import type { Tables } from "../../db/database.types";
 import { queryParamsSchema } from "./_schemas/query";
 import { mapQueryRowToDto } from "../../lib/mappers";
+import { requireUser, UnauthorizedError, buildUnauthorizedResponse } from "../../lib/auth/utils";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ locals, url }) => {
+  try {
+    requireUser(locals);
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return buildUnauthorizedResponse(error.message);
+    }
+    throw error;
+  }
+
   try {
     // Step 1: Parse and validate query parameters
     const rawParams = Object.fromEntries(url.searchParams.entries());
