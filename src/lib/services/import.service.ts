@@ -106,7 +106,7 @@ export function transformGscRecord(record: GscDataRecord): TablesInsert<"queries
     clicks: record.clicks,
     ctr: roundedCtr,
     avg_position: roundedPosition,
-    is_opportunity: computeIsOpportunity(record.impressions, roundedCtr, roundedPosition),
+    is_opportunity: computeIsOpportunity(record.impressions, ctr, roundedPosition),
   };
 }
 
